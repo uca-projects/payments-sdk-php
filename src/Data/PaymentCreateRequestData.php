@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Data;
+namespace Uca\PaymentsSharedClass\Data;
 
-use App\Services\PaymentService;
 use Spatie\LaravelData\Data;
 use Illuminate\Support\Str;
 use OpenApi\Attributes as OA;
@@ -99,6 +98,14 @@ class PaymentCreateRequestData extends Data
         $this->api_key = Str::after(str_replace(' ', '+', request()->api_key), 'base64:');
         $this->client_domain = empty($client_domain) ? null : $client_domain;
         $this->currency = 'ARS';
-        $this->amount = PaymentService::getAmount($items ?? []);;
+        $this->amount = self::getAmount($items ?? []);;
+    }
+
+    private static function getAmount(array $items): float
+    {
+        return collect($items)->reduce(function ($carry, $item) {
+            $item = is_array($item) ? $item : $item->toArray();
+            return $carry + ($item['quantity'] * $item['unit_price']);
+        }, 0.0);
     }
 }

@@ -1,1 +1,12 @@
-/vendor/
+*.log
+/.cursor
+/.fleet
+/.idea
+/.nova
+/.phpunit.cache
+/.vscode
+/.zed
+/Docker
+/vendor
+composer.phar
+composer.lock

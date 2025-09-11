@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Data;
+namespace Uca\PaymentsSharedClass\Data;
 
-use App\Enums\PaymentGatewayEnum;
 use Spatie\LaravelData\Data;
+use Uca\PaymentsSharedClass\Enums\PaymentGatewayEnum;
 
 class PaymentGatewayData extends Data
 {
-
     /**
      * @param string $alias
      * @param PaymentGatewayEnum $name

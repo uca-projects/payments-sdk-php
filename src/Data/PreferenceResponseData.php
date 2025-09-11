@@ -1,10 +1,7 @@
 <?php
 
-namespace App\Data;
+namespace Uca\PaymentsSharedClass\Data;
 
-use App\Models\Client;
-use App\Models\Preference;
-use Illuminate\Support\Carbon;
 use Spatie\LaravelData\Data;
 use OpenApi\Attributes as OA;
 
@@ -81,30 +78,4 @@ class PreferenceResponseData extends Data
         public string $checkout_url,
         public array $payment_gateways,
     ) {}
-
-    public static function fromModel(Preference $preference): self
-    {
-        foreach ($preference->items as $item) {
-            $items[] = ItemData::from($item);
-        }
-
-        $payment_gateways = Client::findOrFail($preference->client_id)->paymentGateways()
-            ->withoutCredential()
-            ->get();
-
-        return new self(
-            preference_id: (string) $preference->id,
-            client_id: (string) $preference->client_id,
-            external_reference: $preference->external_reference,
-            items: $items,
-            payer: PayerData::from($preference->payer),
-            total_amount: $preference->total_amount,
-            back_urls: $preference->back_urls,
-            expires_at: $preference->expires_at instanceof Carbon
-                ? $preference->expires_at->toISOString()
-                : Carbon::parse($preference->expires_at)->toISOString(),
-            checkout_url: route('checkout.index', (string) $preference->id),
-            payment_gateways: $payment_gateways->toArray(),
-        );
-    }
 }

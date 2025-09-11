@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Data;
+namespace Uca\PaymentsSharedClass\Data;
 
 use Illuminate\Support\Carbon;
 use Spatie\LaravelData\Data;

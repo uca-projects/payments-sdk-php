@@ -1,4 +1,5 @@
 *.log
+*.Identifier
 /.cursor
 /.fleet
 /.idea

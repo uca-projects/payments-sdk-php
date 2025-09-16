@@ -5,6 +5,7 @@ namespace Uca\PaymentsSharedClass\Data;
 use Spatie\LaravelData\Data;
 
 /**
+ * @param string $external_reference
  * @param string $preference_id
  * @param string $client_id
  * @param string $client_domain
@@ -17,9 +18,13 @@ use Spatie\LaravelData\Data;
  * @param PaymentGatewayData $payment_gateway
  */
 
+/**
+ * @param array<int, ItemData> $items
+ */
 class PaymentIntentionRequestData extends Data
 {
     public function __construct(
+        public string $external_reference,
         public string $preference_id,
         public string $client_id,
         public string $client_domain,
@@ -27,7 +32,6 @@ class PaymentIntentionRequestData extends Data
         public ?string $currency,
         public ?int $installments,
         public ?array $back_urls,
-        /** @var ItemData[] */
         public array $items,
         public PayerData $payer,
         public PaymentGatewayData $payment_gateway,

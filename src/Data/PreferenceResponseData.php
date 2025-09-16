@@ -36,12 +36,16 @@ use OpenApi\Attributes as OA;
  * @param string $checkout_url
  * @param array $payment_gateways
  */
+
+
+/**
+ * @param array<int, ItemData> $items
+ */
 class PreferenceResponseData extends Data
 {
     public function __construct(
         public string $preference_id,
         public string $client_id,
-        /** @var ItemData[] */
         public array $items,
         public PayerData $payer,
         public float $total_amount,

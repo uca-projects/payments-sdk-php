@@ -8,7 +8,7 @@ use OpenApi\Attributes as OA;
     schema: 'PaymentGatewayEnum',
     title: 'PaymentGatewayEnum',
     type: 'string',
-    enum: ['modo', 'getnet', 'payway', 'mercadopago', 'macroclickpago']
+    enum: ['modo', 'getnet', 'payway', 'mercadopago', 'macroclickdepago']
 )]
 enum PaymentGatewayEnum: string
 {
@@ -16,5 +16,5 @@ enum PaymentGatewayEnum: string
     case GETNET = 'getnet';
     case PAYWAY = 'payway';
     case MERCADOPAGO = 'mercadopago';
-    case MACROCLICKDEPAGO = 'macroclickpago';
+    case MACROCLICKDEPAGO = 'macroclickdepago';
 }

@@ -12,9 +12,9 @@ use Spatie\LaravelData\Data;
  * @param string $currency
  * @param int $installments
  * @param array<string,mixed>|null $back_urls
- * @param \App\Data\ItemData[] $items
- * @param \App\Data\PayerData $payer
- * @param \App\Data\PaymentGatewayData $payment_gateway
+ * @param ItemData[] $items
+ * @param PayerData $payer
+ * @param PaymentGatewayData $payment_gateway
  */
 
 class PaymentIntentionRequestData extends Data
@@ -27,6 +27,7 @@ class PaymentIntentionRequestData extends Data
         public ?string $currency,
         public ?int $installments,
         public ?array $back_urls,
+        /** @var ItemData[] */
         public array $items,
         public PayerData $payer,
         public PaymentGatewayData $payment_gateway,

@@ -9,8 +9,8 @@ use OpenApi\Attributes as OA;
 /**
  * @param string $client_id
  * @param string $external_reference
- * @param \App\Data\ItemData[] $items
- * @param \App\Data\PayerData $payer
+ * @param ItemData[] $items
+ * @param PayerData $payer
  * @param array<string,mixed>|null $back_urls
  * @param string $expires_at
  */
@@ -64,6 +64,7 @@ class PreferenceRequestData extends Data
     public function __construct(
         public string $client_id,
         public string $external_reference,
+        /** @var ItemData[] */
         public array $items,
         public PayerData $payer,
         public array $back_urls,

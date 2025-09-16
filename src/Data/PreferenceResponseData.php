@@ -8,10 +8,9 @@ use OpenApi\Attributes as OA;
 #[OA\Schema(
     title: 'PreferenceResponseData',
     description: 'Data for create a preference',
-    required: ["client_id", "external_reference", "items", "payer", "total_amount", "back_urls"],
+    required: ["client_id", "items", "payer", "total_amount", "back_urls"],
     properties: [
         new OA\Property(property: 'client_id', type: 'string', example: 'your-client_id uuid'),
-        new OA\Property(property: 'external_reference', type: 'string', example: 'your-external-reference'),
         new OA\Property(property: 'items', type: 'array', items: new OA\Items(ref: '#/components/schemas/ItemData')),
         new OA\Property(property: 'payer', ref: '#/components/schemas/PayerData'),
         new OA\Property(property: 'total_amount', type: 'number', format: 'float', example: 10.5, description: 'Sum items unit_price * quantity'),
@@ -55,7 +54,6 @@ use OpenApi\Attributes as OA;
 /**
  * @param string $preference_id
  * @param string $client_id
- * @param string $external_reference
  * @param ItemData[] $items
  * @param PayerData $payer
  * @param float $total_amount
@@ -69,7 +67,6 @@ class PreferenceResponseData extends Data
     public function __construct(
         public string $preference_id,
         public string $client_id,
-        public string $external_reference,
         /** @var ItemData[] */
         public array $items,
         public PayerData $payer,

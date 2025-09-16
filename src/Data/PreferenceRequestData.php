@@ -9,38 +9,12 @@ use OpenApi\Attributes as OA;
 #[OA\Schema(
     title: 'PreferenceRequestData',
     description: 'Data for create a preference',
-    required: ["client_id", "items", "payer", "back_urls", "expires_at"],
+    required: ["client_id", "items", "payer", "back_url", "expires_at"],
     properties: [
         new OA\Property(property: 'client_id', type: 'string', example: 'your-client_id uuid'),
         new OA\Property(property: 'items', type: 'array', items: new OA\Items(ref: '#/components/schemas/ItemData')),
         new OA\Property(property: 'payer', ref: '#/components/schemas/PayerData'),
-        new OA\Property(
-            property: 'back_urls',
-            type: 'object',
-            description: "Return URLs for each transaction status.",
-            properties: [
-                new OA\Property(
-                    property: "success",
-                    type: "string",
-                    example: "https://yourdomain.com/payments/success"
-                ),
-                new OA\Property(
-                    property: "pending",
-                    type: "string",
-                    example: "https://yourdomain.com/payments/pending"
-                ),
-                new OA\Property(
-                    property: "failure",
-                    type: "string",
-                    example: "https://yourdomain.com/payments/failure"
-                ),
-                new OA\Property(
-                    property: "unique",
-                    type: "string",
-                    example: "https://yourdomain.com/payments/unique"
-                )
-            ]
-        ),
+        new OA\Property(property: 'back_url', type: 'string', example: 'https://yourdomain.com/payments/success'),
         new OA\Property(
             property: 'expires_at',
             type: 'string',
@@ -54,7 +28,7 @@ use OpenApi\Attributes as OA;
  * @param string $client_id
  * @param ItemData[] $items
  * @param PayerData $payer
- * @param array<string,mixed>|null $back_urls
+ * @param string $back_url
  * @param string $expires_at
  */
 class PreferenceRequestData extends Data
@@ -64,7 +38,7 @@ class PreferenceRequestData extends Data
         /** @var ItemData[] */
         public array $items,
         public PayerData $payer,
-        public array $back_urls,
+        public string $back_url,
         public ?string $expires_at = null,
     ) {
         $this->expires_at = $expires_at ?? Carbon::now()->addMinutes(10)->toISOString();

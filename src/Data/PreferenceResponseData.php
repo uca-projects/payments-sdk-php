@@ -8,7 +8,7 @@ use OpenApi\Attributes as OA;
 #[OA\Schema(
     title: 'PreferenceResponseData',
     description: 'Data for create a preference',
-    required: ["client_id", "items", "payer", "total_amount", "back_urls"],
+    required: ["client_id", "items", "payer", "total_amount", "back_url"],
     properties: [
         new OA\Property(property: 'client_id', type: 'string', example: 'your-client_id uuid'),
         new OA\Property(property: 'items', type: 'array', items: new OA\Items(ref: '#/components/schemas/ItemData')),
@@ -21,33 +21,7 @@ use OpenApi\Attributes as OA;
             example: '2025-09-03T14:30:00Z',
             description: 'Datetime when the preference expires. Defaults to 10 minutes from now if omitted.'
         ),
-        new OA\Property(
-            property: 'back_urls',
-            type: 'object',
-            description: "Return URLs for each transaction status.",
-            properties: [
-                new OA\Property(
-                    property: "success",
-                    type: "string",
-                    example: "https://yourdomain.com/payments/success"
-                ),
-                new OA\Property(
-                    property: "pending",
-                    type: "string",
-                    example: "https://yourdomain.com/payments/pending"
-                ),
-                new OA\Property(
-                    property: "failure",
-                    type: "string",
-                    example: "https://yourdomain.com/payments/failure"
-                ),
-                new OA\Property(
-                    property: "unique",
-                    type: "string",
-                    example: "https://yourdomain.com/payments/unique"
-                )
-            ]
-        ),
+        new OA\Property(property: 'back_url', type: 'string', example: 'https://yourdomain.com/payments/success'),
     ]
 )]
 
@@ -57,7 +31,7 @@ use OpenApi\Attributes as OA;
  * @param ItemData[] $items
  * @param PayerData $payer
  * @param float $total_amount
- * @param array<string,mixed>|null $back_urls
+ * @param string $back_url
  * @param string $expires_at
  * @param string $checkout_url
  * @param array $payment_gateways
@@ -71,7 +45,7 @@ class PreferenceResponseData extends Data
         public array $items,
         public PayerData $payer,
         public float $total_amount,
-        public array $back_urls,
+        public string $back_url,
         public string $expires_at,
         public string $checkout_url,
         public array $payment_gateways,

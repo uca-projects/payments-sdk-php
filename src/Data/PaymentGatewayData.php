@@ -8,6 +8,7 @@ use Uca\PaymentsSharedClass\Enums\PaymentGatewayEnum;
 class PaymentGatewayData extends Data
 {
     /**
+     * @param string $id
      * @param string $alias
      * @param PaymentGatewayEnum $name
      * @param string|null $description
@@ -15,6 +16,7 @@ class PaymentGatewayData extends Data
      * @param array $credential
      */
     public function __construct(
+        public string $id,
         public string $alias,
         public PaymentGatewayEnum $name,
         public ?string $description,

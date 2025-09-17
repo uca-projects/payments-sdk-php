@@ -7,7 +7,7 @@ class ItemRules
     public static function rules(): array
     {
         return [
-            'items' => ['required', 'array'],
+            'items' => ['required', 'array', 'min:1'],
             'items.*.amount' => ['prohibited'],
             'items.*.title' => ['required', 'string'],
             'items.*.unit_price' => ['required', 'numeric', 'min:5'],

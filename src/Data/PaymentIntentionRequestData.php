@@ -39,4 +39,9 @@ class PaymentIntentionRequestData extends Data
         $this->currency = 'ARS';
         $this->installments = 1;
     }
+
+    public function getAmount(): float
+    {
+        return collect($this->items)->sum(fn($item) => $item->quantity * $item->unit_price);
+    }
 }

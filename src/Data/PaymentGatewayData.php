@@ -17,10 +17,10 @@ class PaymentGatewayData extends Data
      */
     public function __construct(
         public string $id,
-        public string $alias,
+        public ?string $alias,
         public PaymentGatewayEnum $name,
         public ?string $description,
         public ?string $logo_url,
-        public array $credential,
+        public ?array $credential,
     ) {}
 }

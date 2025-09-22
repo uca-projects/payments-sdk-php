@@ -45,7 +45,7 @@ class PreferenceResponseData extends Data
 {
     public function __construct(
         public string $preference_id,
-        public string $client_id,
+        public ClientData $client,
         public array $items,
         public PayerData $payer,
         public float $total_amount,

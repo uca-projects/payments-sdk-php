@@ -24,6 +24,24 @@ use OpenApi\Attributes as OA;
     ],
     required: ['external_reference', 'preference_id', 'client_id', 'client_domain', 'items', 'payer', 'payment_gateway']
 )]
+
+/**
+ * @param string $external_reference
+ * @param string $preference_id
+ * @param string $client_id
+ * @param string $client_domain
+ * @param array|null $token_card
+ * @param string $currency
+ * @param int $installments
+ * @param array<string,mixed>|null $back_urls
+ * @param ItemData[] $items
+ * @param PayerData $payer
+ * @param PaymentGatewayData $payment_gateway
+ */
+
+/**
+ * @param array<int, ItemData> $items
+ */
 class PaymentIntentionRequestData extends Data
 {
     public function __construct(

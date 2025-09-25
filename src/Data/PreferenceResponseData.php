@@ -22,6 +22,22 @@ use OpenApi\Attributes as OA;
     ],
     required: ['preference_id', 'client', 'items', 'payer', 'total_amount', 'back_url', 'expires_at', 'checkout_url', 'payment_gateways']
 )]
+
+/**
+ * @param string $preference_id
+ * @param ClientData $client
+ * @param ItemData[] $items
+ * @param PayerData $payer
+ * @param float $total_amount
+ * @param string $back_url
+ * @param string $expires_at
+ * @param string $checkout_url
+ * @param array $payment_gateways
+ */
+
+/**
+ * @param array<int, ItemData> $items
+ */
 class PreferenceResponseData extends Data
 {
     public function __construct(

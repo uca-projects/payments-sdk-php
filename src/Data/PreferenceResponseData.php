@@ -6,41 +6,22 @@ use Spatie\LaravelData\Data;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
+    schema: 'PreferenceResponseData',
     title: 'PreferenceResponseData',
-    description: 'Data for create a preference',
-    required: ["client_id", "items", "payer", "total_amount", "back_url"],
+    description: 'Payment intention response attributes',
     properties: [
-        new OA\Property(property: 'client_id', type: 'string', example: 'your-client_id uuid'),
+        new OA\Property(property: 'preference_id', type: 'string', format: 'uuid', description: 'Id de la preferencia'),
+        new OA\Property(property: 'client', ref: '#/components/schemas/ClientData'),
         new OA\Property(property: 'items', type: 'array', items: new OA\Items(ref: '#/components/schemas/ItemData')),
         new OA\Property(property: 'payer', ref: '#/components/schemas/PayerData'),
-        new OA\Property(property: 'total_amount', type: 'number', format: 'float', example: 10.5, description: 'Sum items unit_price * quantity'),
-        new OA\Property(
-            property: 'expires_at',
-            type: 'string',
-            format: 'date-time',
-            example: '2025-09-03T14:30:00Z',
-            description: 'Datetime when the preference expires. Defaults to 10 minutes from now if omitted.'
-        ),
-        new OA\Property(property: 'back_url', type: 'string', example: 'https://yourdomain.com/payments/success'),
-    ]
+        new OA\Property(property: 'total_amount', type: 'number', format: 'float', description: 'Monto total'),
+        new OA\Property(property: 'back_url', type: 'string', description: 'URL de retorno'),
+        new OA\Property(property: 'expires_at', type: 'string', format: 'date-time', description: 'Fecha de expiraciÃ³n'),
+        new OA\Property(property: 'checkout_url', type: 'string', description: 'URL de checkout'),
+        new OA\Property(property: 'payment_gateways', type: 'array', items: new OA\Items(ref: '#/components/schemas/PaymentGatewayData')),
+    ],
+    required: ['preference_id', 'client', 'items', 'payer', 'total_amount', 'back_url', 'expires_at', 'checkout_url', 'payment_gateways']
 )]
-
-/**
- * @param string $preference_id
- * @param string $client_id
- * @param ItemData[] $items
- * @param PayerData $payer
- * @param float $total_amount
- * @param string $back_url
- * @param string $expires_at
- * @param string $checkout_url
- * @param array $payment_gateways
- */
-
-
-/**
- * @param array<int, ItemData> $items
- */
 class PreferenceResponseData extends Data
 {
     public function __construct(

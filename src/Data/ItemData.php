@@ -6,6 +6,7 @@ use Spatie\LaravelData\Data;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
+    schema: 'ItemData',
     title: 'ItemData',
     description: 'Item data',
     required: ["item_reference", "title", "quantity", "unit_price"],

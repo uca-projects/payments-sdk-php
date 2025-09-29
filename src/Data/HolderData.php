@@ -6,6 +6,7 @@ use Spatie\LaravelData\Data;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
+    schema: 'HolderData',
     title: 'HolderData',
     description: 'Holder data',
     required: ["name", "surname", "doc_type", "doc_number"],

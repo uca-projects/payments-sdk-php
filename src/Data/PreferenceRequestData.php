@@ -7,6 +7,7 @@ use Spatie\LaravelData\Data;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
+    schema: 'PreferenceRequestData',
     title: 'PreferenceRequestData',
     description: 'Data for create a preference',
     required: ["client_id", "items", "payer", "back_url", "expires_at"],

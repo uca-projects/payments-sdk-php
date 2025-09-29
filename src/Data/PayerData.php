@@ -6,6 +6,7 @@ use Spatie\LaravelData\Data;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
+    schema: 'PayerData',
     title: 'PayerData',
     description: 'Payer data',
     required: ["payer_reference", "name", "surname", "email", "doc_type", "doc_number", "billing_address"],

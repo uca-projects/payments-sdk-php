@@ -13,7 +13,13 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: 'status', type: 'string', example: 'ERROR', description: 'Status of the response'),
         new OA\Property(property: 'status_code', type: 'integer', example: 422, description: 'HTTP status code'),
         new OA\Property(property: 'message', type: 'string', example: 'Error validating form Payment', description: 'Error message'),
-        new OA\Property(property: 'validation_errors', type: 'array', description: 'List of validation errors', example: ['field_name: The field is required.']),
+        new OA\Property(
+            property: 'validation_errors',
+            type: 'array',
+            items: new OA\Items(type: 'string'),
+            description: 'Validation errors, where keys are field names and values are arrays of error messages.',
+            example: "['unique_field': ['The selected unique field is invalid.']]"
+        ),
         new OA\Property(property: 'request', type: 'object', nullable: true, description: 'Original request data'),
         new OA\Property(property: 'additional_info', type: 'object', nullable: true, description: 'Additional information about the error'),
         new OA\Property(property: 'exception', type: 'string', example: 'App\\Exceptions\\ValidationRequestException', nullable: true, description: 'Exception class name'),

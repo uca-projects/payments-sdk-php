@@ -15,7 +15,7 @@ use Spatie\LaravelData\Data;
         new OA\Property(property: 'qr', type: 'string', nullable: true),
         new OA\Property(property: 'deep_link', type: 'string', nullable: true),
         new OA\Property(property: 'notification_url', type: 'string', nullable: true),
-        new OA\Property(property: 'back_urls', type: 'string', nullable: true),
+        new OA\Property(property: 'back_urls', type: 'object', nullable: true),
     ]
 )]
 class PaymentIntentionData extends Data
@@ -26,7 +26,7 @@ class PaymentIntentionData extends Data
      * @param string|null $qr
      * @param string|null $deep_link
      * @param string|null $notification_url
-     * @param string|null $back_urls
+     * @param array|null $back_urls
      */
     public function __construct(
         public ?string $transaction_intent_id,
@@ -34,6 +34,6 @@ class PaymentIntentionData extends Data
         public ?string $qr,
         public ?string $deep_link,
         public ?string $notification_url,
-        public ?string $back_urls,
+        public ?array $back_urls,
     ) {}
 }

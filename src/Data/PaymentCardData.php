@@ -15,7 +15,7 @@ use Spatie\LaravelData\Data;
         new OA\Property(property: 'bin', type: 'string', nullable: true),
         new OA\Property(property: 'last_digits', type: 'string', nullable: true),
         new OA\Property(property: 'card_type', type: 'string', nullable: true),
-        new OA\Property(property: 'holder', type: 'string', nullable: true),
+        new OA\Property(property: 'holder', type: 'object', nullable: true),
     ]
 )]
 class PaymentCardData extends Data
@@ -26,7 +26,7 @@ class PaymentCardData extends Data
      * @param string|null $bin
      * @param string|null $last_digits
      * @param string|null $card_type
-     * @param string|null $holder
+     * @param array|null $holder
      */
     public function __construct(
         public ?string $bank_name,
@@ -34,6 +34,6 @@ class PaymentCardData extends Data
         public ?string $bin,
         public ?string $last_digits,
         public ?string $card_type,
-        public ?string $holder,
+        public ?array $holder,
     ) {}
 }

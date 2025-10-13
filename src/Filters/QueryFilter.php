@@ -2,17 +2,18 @@
 
 namespace Uca\PaymentsSharedClass\Filters;
 
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 
 abstract class QueryFilter
 {
-    protected $request;
+    protected $filterFields;
     protected $builder;
-    protected array $allowedFilters = ['external_ref', 'operation_id', 'date', 'card', 'status_resolve', 'owner', 'amount'];
+    protected array $allowedFilters;
 
-    public function __construct(Request $request)
+    public function __construct(array $filterFields, string $table)
     {
-        $this->request = $request;
+        $this->filterFields = $filterFields;
+        $this->allowedFilters = Schema::getColumnListing($table);
     }
 
     public function apply($builder)
@@ -28,8 +29,7 @@ abstract class QueryFilter
 
     protected function filters()
     {
-        $input = $this->request->all();
-
+        $input = $this->filterFields;
         return collect($input)
             ->filter(function ($value, $key) {
                 // Normalizamos la clave quitando los modificadores

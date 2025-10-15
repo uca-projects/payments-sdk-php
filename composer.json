@@ -13,6 +13,13 @@
       "Uca\\Payments\\": "src/"
     }
   },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Uca\\Payments\\PaymentsServiceProvider"
+      ]
+    }
+  },
   "authors": [
     {
       "name": "Gabriel Esteban Teruel",

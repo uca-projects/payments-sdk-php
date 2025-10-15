@@ -1,11 +1,11 @@
 <?php
 
-namespace Uca\PaymentsSharedClass\Builders;
+namespace Uca\Payments\Builders;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Uca\PaymentsSharedClass\ervices\ApiPaymentService;
-use Uca\PaymentsSharedClass\Models\ApiPaymentModel;
+use Uca\Payments\Services\ApiPaymentService;
+use Uca\Payments\Models\ApiPaymentModel;
 
 class ApiPaymentBuilder
 {

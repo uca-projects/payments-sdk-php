@@ -1,6 +1,6 @@
 <?php
 
-namespace Uca\PaymentsSharedClass\Rules;
+namespace Uca\Payments\Rules;
 
 class ItemRules
 {

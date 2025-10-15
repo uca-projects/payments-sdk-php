@@ -1,8 +1,8 @@
 <?php
 
-namespace Uca\PaymentsSharedClass\Traits;
+namespace Uca\Payments\Traits;
 
-use Uca\PaymentsSharedClass\Filters\QueryFilter;
+use Uca\Payments\Filters\QueryFilter;
 
 trait Filterable
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Uca\PaymentsSharedClass\Filters;
+namespace Uca\Payments\Filters;
 
 use Illuminate\Support\Facades\Schema;
 

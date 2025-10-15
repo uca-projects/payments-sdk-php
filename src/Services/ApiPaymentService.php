@@ -1,11 +1,11 @@
 <?php
 
-namespace Uca\PaymentsSharedClass\ervices;
+namespace Uca\Payments\Services;
 
 use Illuminate\Support\Facades\Http;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpFoundation\Response as HttpFoundationResponse;
-use Uca\PaymentsSharedClass\Data\PaymentGatewayData;
+use Uca\Payments\Data\PaymentGatewayData;
 
 class ApiPaymentService
 {
@@ -63,7 +63,7 @@ class ApiPaymentService
             'Content-Type' => 'application/json',
         ])->acceptJson()
             ->withUrlParameters($params)
-            ->get(config('payments-shared-class.payment-gateway-url') . '/api/' . $endpoint);
+            ->get(config('uca-payments-sdk.payment-gateway-url') . '/api/' . $endpoint);
 
         $data = $response->json();
 
@@ -86,7 +86,7 @@ class ApiPaymentService
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
         ])->acceptJson()
-            ->post(config('payments-shared-class.payment-gateway-url') . '/api/' . $endpoint, $params);
+            ->post(config('uca-payments-sdk.payment-gateway-url') . '/api/' . $endpoint, $params);
 
         if ($response->status() !== HttpFoundationResponse::HTTP_OK && $response->status() !== HttpFoundationResponse::HTTP_CREATED) {
             // TO DO reemplazar por un log de error para que no vea el cliente

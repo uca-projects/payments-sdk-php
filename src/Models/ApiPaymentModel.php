@@ -1,20 +1,20 @@
 <?php
 
-namespace Uca\PaymentsSharedClass\Models;
+namespace Uca\Payments\Models;
 
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Uca\PaymentsSharedClass\Builders\ApiPaymentBuilder;
-use Uca\PaymentsSharedClass\Data\ClientData;
-use Uca\PaymentsSharedClass\Data\ItemData;
-use Uca\PaymentsSharedClass\Data\PayerData;
-use Uca\PaymentsSharedClass\Data\PaymentCardData;
-use Uca\PaymentsSharedClass\Data\PaymentDetailData;
-use Uca\PaymentsSharedClass\Data\PaymentGatewayData;
-use Uca\PaymentsSharedClass\Data\PaymentIntentionData;
-use Uca\PaymentsSharedClass\ervices\ApiPaymentService;
+use Uca\Payments\Builders\ApiPaymentBuilder;
+use Uca\Payments\Data\ClientData;
+use Uca\Payments\Data\ItemData;
+use Uca\Payments\Data\PayerData;
+use Uca\Payments\Data\PaymentCardData;
+use Uca\Payments\Data\PaymentDetailData;
+use Uca\Payments\Data\PaymentGatewayData;
+use Uca\Payments\Data\PaymentIntentionData;
+use Uca\Payments\Services\ApiPaymentService;
 
 class ApiPaymentModel extends Model
 {
@@ -56,8 +56,8 @@ class ApiPaymentModel extends Model
         $this->setPaymentDetail($attributes['payment_detail'] ?? null);
         $this->setPayer($attributes['payer'] ?? null);
         $this->setItems($attributes['items'] ?? null);
-        $this->setPayer($attributes['client'] ?? null);
-        $this->setItems($attributes['payment_gateway'] ?? null);
+        $this->setClient($attributes['client'] ?? null);
+        $this->setPaymentGateway($attributes['payment_gateway'] ?? null);
     }
 
     public static function query(): ApiPaymentBuilder
@@ -122,14 +122,14 @@ class ApiPaymentModel extends Model
         return app(ApiPaymentBuilder::class)->get();
     }
 
-    public function setClient(mixed $client): void
+    private function setClient(mixed $client): void
     {
         if (is_array($client)) {
             $this->client = ClientData::from($client);
         }
     }
 
-    public function setPaymentGateway(mixed $payment_gateway): void
+    private function setPaymentGateway(mixed $payment_gateway): void
     {
         if (is_array($payment_gateway)) {
             $this->paymentGateway = PaymentGatewayData::from($payment_gateway);

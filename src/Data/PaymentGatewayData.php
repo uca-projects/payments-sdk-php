@@ -1,9 +1,9 @@
 <?php
 
-namespace Uca\PaymentsSharedClass\Data;
+namespace Uca\Payments\Data;
 
 use Spatie\LaravelData\Data;
-use Uca\PaymentsSharedClass\Enums\PaymentGatewayEnum;
+use Uca\Payments\Enums\PaymentGatewayEnum;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(

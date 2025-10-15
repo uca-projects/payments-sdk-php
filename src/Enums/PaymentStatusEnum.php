@@ -1,6 +1,6 @@
 <?php
 
-namespace Uca\PaymentsSharedClass\Enums;
+namespace Uca\Payments\Enums;
 
 use OpenApi\Attributes as OA;
 

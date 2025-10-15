@@ -1,22 +1,22 @@
 {
-    "name": "uca/payments-shared-class",
-    "description": "Common class for payments",
-    "type": "library",
-    "require": {
-        "php": "^8.3",
-        "darkaonline/l5-swagger": "^9.0",
-        "spatie/laravel-data": "^4.15"
-    },
-    "license": "MIT",
-    "autoload": {
-        "psr-4": {
-            "Uca\\PaymentsSharedClass\\": "src/"
-        }
-    },
-    "authors": [
-        {
-            "name": "Gabriel Teruel",
-            "email": "gabriel_teruel@uca.edu.ar"
-        }
-    ]
+  "name": "uca/payments-sdk-php",
+  "description": "Common class for payments",
+  "type": "library",
+  "require": {
+    "php": "^8.3",
+    "darkaonline/l5-swagger": "^9.0",
+    "spatie/laravel-data": "^4.15"
+  },
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Uca\\Payments\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Gabriel Esteban Teruel",
+      "email": "gabriel_teruel@uca.edu.ar"
+    }
+  ]
 }

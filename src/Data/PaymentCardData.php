@@ -1,6 +1,6 @@
 <?php
 
-namespace Uca\PaymentsSharedClass\Data;
+namespace Uca\Payments\Data;
 
 use OpenApi\Attributes as OA;
 use Spatie\LaravelData\Data;

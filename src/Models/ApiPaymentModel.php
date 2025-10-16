@@ -6,6 +6,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Uca\Payments\Data\PaymentData;
 use Uca\Payments\Builders\ApiPaymentBuilder;
 use Uca\Payments\Data\ClientData;
 use Uca\Payments\Data\ItemData;
@@ -15,6 +16,9 @@ use Uca\Payments\Data\PaymentDetailData;
 use Uca\Payments\Data\PaymentGatewayData;
 use Uca\Payments\Data\PaymentIntentionData;
 use Uca\Payments\Services\ApiPaymentService;
+use ReflectionClass;
+use ReflectionNamedType;
+use Carbon\Carbon;
 
 class ApiPaymentModel extends Model
 {
@@ -33,24 +37,16 @@ class ApiPaymentModel extends Model
     public ?PaymentGatewayData $paymentGateway = null;
     public ?ClientData $client = null;
 
-    protected $fillable = [
-        'id',
-        'client_id',
-        'preference_id',
-        'payment_gateway_id',
-        'external_reference',
-        'gateway_transaction_id',
-        'client_domain',
-        'amount',
-        'currency',
-        'status',
-        'created_at',
-        'updated_at',
-    ];
+    protected $fillable = [];
 
     public function __construct(array $attributes = [])
     {
-        parent::__construct($attributes);
+        parent::__construct($attributes); 
+        
+        // Generar fillable automáticamente desde PaymentData
+        $this->fillable = $this->getFillableFromPaymentData();
+
+        // Genero las relaciones
         $this->setPaymentCard($attributes['payment_card'] ?? null);
         $this->setPaymentIntention($attributes['payment_intention'] ?? null);
         $this->setPaymentDetail($attributes['payment_detail'] ?? null);
@@ -171,5 +167,39 @@ class ApiPaymentModel extends Model
                 ->map(fn($item) => ItemData::from($item))
                 ->toArray();
         }
+    }
+
+    /**
+     * Obtiene las propiedades públicas del DTO PaymentData
+     * y devuelve solo las que son de tipo escalar o Carbon.
+     */
+    private function getFillableFromPaymentData(): array
+    {
+        $reflection = new ReflectionClass(PaymentData::class);
+
+        return collect($reflection->getProperties())
+            ->filter(function ($property) {
+                $type = $property->getType();
+
+                // Si no hay tipo declarado, no la incluimos
+                if (!$type instanceof ReflectionNamedType) {
+                    return false;
+                }
+
+                $typeName = $type->getName();
+
+                // Aceptar solo tipos escalares y Carbon, descarta los model relations
+                return in_array($typeName, [
+                    'string',
+                    'int',
+                    'float',
+                    'bool',
+                    Carbon::class,
+                    '?' . Carbon::class, // por si es nullable
+                ]);
+            })
+            ->map(fn($prop) => $prop->getName())
+            ->values()
+            ->toArray();
     }
 }

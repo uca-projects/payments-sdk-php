@@ -58,7 +58,7 @@ class ApiPaymentBuilder
     {
         $page = request('page', 1);
 
-        $this->filters['per_page'] = $perPage;
+        $this->filters['per_page'] = ($perPage > 50) ? 50 : $perPage;
         $this->filters['page'] = $page;
 
         $response = app(ApiPaymentService::class)->search($this->filters);

@@ -14,6 +14,7 @@ class ItemRules
             'items.*.quantity' => ['required', 'integer:strict', 'min:1'],
             'items.*.item_reference' => ['required'],
             'items.*.description' => ['nullable'],
+            'items.*.amount' => ['prohibited'],
         ];
     }
 }

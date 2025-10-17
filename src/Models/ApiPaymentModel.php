@@ -41,10 +41,11 @@ class ApiPaymentModel extends Model
 
     public function __construct(array $attributes = [])
     {
-        parent::__construct($attributes); 
-        
         // Generar fillable automáticamente desde PaymentData
         $this->fillable = $this->getFillableFromPaymentData();
+
+        // Completo con Model los atributos fillables
+        parent::__construct($attributes);
 
         // Genero las relaciones
         $this->setPaymentCard($attributes['payment_card'] ?? null);

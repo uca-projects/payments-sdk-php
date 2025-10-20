@@ -100,14 +100,14 @@ class ApiPaymentBuilder
 
     public function fetchOne(array $response): ?ApiPaymentModel
     {
-        if (!isset($response['data'])) {
+        if (!isset($response['data']) || empty($response['data'])) {
             return null;
         }
 
         $data = is_array($response['data']) && isset($response['data'][0]) ? $response['data'][0] : $response['data'];
 
         // Si hay clientes, agregamos el atributo client
-        if ($this->clientModels) {
+        if ($this->clientModels && isset($data['client_id'])) {
             $client = $this->clientModels->get($data['client_id']) ?? null;
             $data['client'] = $client->toArray();
         }

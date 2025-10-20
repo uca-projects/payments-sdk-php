@@ -6,10 +6,49 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Uca\Payments\Services\ApiPaymentService;
 use Uca\Payments\Models\ApiPaymentModel;
+use Illuminate\Support\Str;
 
 class ApiPaymentBuilder
 {
     protected array $filters = [];
+
+    // Relacion con modelo externo
+    private ?Collection $clientModels;
+
+    public function __construct(?Collection $clientModels = null)
+    {
+        $this->clientModels = $clientModels ?? null;
+    }
+
+    public static function byExternalReference(string $payment_gateway_id, string $externalReference): ?ApiPaymentModel
+    {
+        if (!Str::isUuid($payment_gateway_id) || empty($externalReference)) {
+            return null;
+        }
+
+        $response = app(ApiPaymentService::class)->byExternalReference($payment_gateway_id, $externalReference);
+        return app(ApiPaymentBuilder::class)->fetchOne($response);
+    }
+
+    public static function byTransactionId(string $payment_gateway_id, string $transaction_id): ?ApiPaymentModel
+    {
+        if (!Str::isUuid($payment_gateway_id) || empty($transaction_id)) {
+            return null;
+        }
+
+        $response = app(ApiPaymentService::class)->byTransactionId($payment_gateway_id, $transaction_id);
+        return app(ApiPaymentBuilder::class)->fetchOne($response);
+    }
+
+    public static function byPreferenceId(string $preference_id): ?ApiPaymentModel
+    {
+        if (empty($preference_id)) {
+            return null;
+        }
+
+        $response = app(ApiPaymentService::class)->byPreferenceId($preference_id);
+        return app(ApiPaymentBuilder::class)->fetchOne($response);
+    }
 
     public function where($column, $operator = null, $value = null, $boolean = 'and'): self
     {
@@ -37,10 +76,25 @@ class ApiPaymentBuilder
         return $this->fetchMany($response);
     }
 
+    public function all(): Collection
+    {
+        return $this->get();
+    }
+
+    public function find(string $uuid): ?ApiPaymentModel
+    {
+        if (!Str::isUuid($uuid)) {
+            return null;
+        }
+
+        $response = app(ApiPaymentService::class)->byId($uuid);
+        return $this->fetchOne($response);
+    }
+
     public function fetchMany(array $response): Collection
     {
         $items = collect($response['data'] ?? [])
-            ->map(fn($item) => new ApiPaymentModel($item));
+            ->map(fn($item) => $this->fetchOne(['data' => $item]));
         return new Collection($items);
     }
 
@@ -50,8 +104,15 @@ class ApiPaymentBuilder
             return null;
         }
 
-        $data = $response['data'];
-        return new ApiPaymentModel(is_array($data) && isset($data[0]) ? $data[0] : $data);
+        $data = is_array($response['data']) && isset($response['data'][0]) ? $response['data'][0] : $response['data'];
+
+        // Si hay clientes, agregamos el atributo client
+        if ($this->clientModels) {
+            $client = $this->clientModels->get($data['client_id']) ?? null;
+            $data['client'] = $client->toArray();
+        }
+
+        return empty($data) ? null : new ApiPaymentModel($data);
     }
 
     public function paginate(int $perPage = 50): LengthAwarePaginator
@@ -63,8 +124,7 @@ class ApiPaymentBuilder
 
         $response = app(ApiPaymentService::class)->search($this->filters);
 
-        $data = collect($response['data'] ?? [])
-            ->map(fn($item) => new ApiPaymentModel($item));
+        $data = $this->fetchMany($response);
 
         $total = $response['meta']['total'] ?? count($data);
 

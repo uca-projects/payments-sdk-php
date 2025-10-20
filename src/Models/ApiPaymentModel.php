@@ -2,8 +2,7 @@
 
 namespace Uca\Payments\Models;
 
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Str;
+
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Uca\Payments\Data\PaymentData;
@@ -15,7 +14,6 @@ use Uca\Payments\Data\PaymentCardData;
 use Uca\Payments\Data\PaymentDetailData;
 use Uca\Payments\Data\PaymentGatewayData;
 use Uca\Payments\Data\PaymentIntentionData;
-use Uca\Payments\Services\ApiPaymentService;
 use ReflectionClass;
 use ReflectionNamedType;
 use Carbon\Carbon;
@@ -62,61 +60,9 @@ class ApiPaymentModel extends Model
         return new ApiPaymentBuilder();
     }
 
-    public static function all($columns = ['*']): Collection
+    public static function withClients(Collection $clients): ApiPaymentBuilder
     {
-        $response = app(ApiPaymentService::class)->search([]);
-        return app(ApiPaymentBuilder::class)->fetchMany($response);
-    }
-
-    public static function find(string $uuid): ?ApiPaymentModel
-    {
-        if (!Str::isUuid($uuid)) {
-            return null;
-        }
-
-        $response = app(ApiPaymentService::class)->byId($uuid);
-        return app(ApiPaymentBuilder::class)->fetchOne($response);
-    }
-
-    public static function byExternalReference(string $payment_gateway_id, string $externalReference): ?ApiPaymentModel
-    {
-        if (!Str::isUuid($payment_gateway_id) || empty($externalReference)) {
-            return null;
-        }
-
-        $response = app(ApiPaymentService::class)->byExternalReference($payment_gateway_id, $externalReference);
-        return app(ApiPaymentBuilder::class)->fetchOne($response);
-    }
-
-    public static function byTransactionId(string $payment_gateway_id, string $transaction_id): ?ApiPaymentModel
-    {
-        if (!Str::isUuid($payment_gateway_id) || empty($transaction_id)) {
-            return null;
-        }
-
-        $response = app(ApiPaymentService::class)->byTransactionId($payment_gateway_id, $transaction_id);
-        return app(ApiPaymentBuilder::class)->fetchOne($response);
-    }
-
-    public static function where($column, $operator = null, $value = null, $boolean = 'and'): ApiPaymentBuilder
-    {
-        // Ignoramos $operator y $boolean, mantenemos compatibilidad con Eloquent
-        return app(ApiPaymentBuilder::class)->where($column, $operator ?? $value);
-    }
-
-    public static function whereIn(string $column, array $values): ApiPaymentBuilder
-    {
-        return app(ApiPaymentBuilder::class)->whereIn($column, $values);
-    }
-
-    public static function paginate(int $perPage = 50): LengthAwarePaginator
-    {
-        return app(ApiPaymentBuilder::class)->paginate($perPage);
-    }
-
-    public static function get(): Collection
-    {
-        return app(ApiPaymentBuilder::class)->get();
+        return new ApiPaymentBuilder($clients->keyBy('id'));
     }
 
     private function setClient(mixed $client): void

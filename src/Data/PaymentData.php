@@ -34,5 +34,11 @@ class PaymentData extends Data
         public ?array $items,
         public ?ClientData $client,
         public ?PaymentGatewayData $payment_gateway
-    ) {}
+    ) {
+        // Normalize values
+        $this->external_reference = strtolower($external_reference);
+        $this->client_domain = $client_domain ? strtolower($client_domain) : null;
+        $this->currency = strtoupper($currency);
+        $this->status = strtoupper($status);
+    }
 }

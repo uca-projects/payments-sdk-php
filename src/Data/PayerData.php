@@ -44,5 +44,12 @@ class PayerData extends Data
         public ?string $doc_type,
         public ?string $doc_number,
         public ?array $billing_address
-    ) {}
+    ) {
+        // Normalize values
+        $this->payer_reference = $payer_reference ? strtolower($payer_reference) : null;
+        $this->name = ucfirst(strtolower($name));
+        $this->surname = ucfirst(strtolower($surname));
+        $this->email = $email ? strtolower($email) : null;
+        $this->doc_type = $doc_type ? strtoupper($doc_type) : null;
+    }
 }

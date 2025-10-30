@@ -27,5 +27,9 @@ class ClientData extends Data
         public string $id,
         public string $name,
         public string $domain
-    ) {}
+    ) {
+        // Normalize values
+        $this->name = strtolower($name);
+        $this->domain = strtolower($domain);
+    }
 }

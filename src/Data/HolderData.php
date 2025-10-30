@@ -31,5 +31,10 @@ class HolderData extends Data
         public string $surname,
         public string $doc_type,
         public string $doc_number,
-    ) {}
+    ) {
+        // Normalize values
+        $this->name = ucfirst(strtolower($name));
+        $this->surname = ucfirst(strtolower($surname));
+        $this->doc_type = strtoupper($doc_type);
+    }
 }

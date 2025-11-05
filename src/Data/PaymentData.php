@@ -2,7 +2,7 @@
 
 namespace Uca\Payments\Data;
 
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 use Spatie\LaravelData\Attributes\DataCollectionOf;
 use Spatie\LaravelData\Data;
 use Uca\Payments\Data\ClientData;
@@ -25,8 +25,8 @@ class PaymentData extends Data
         public float $amount,
         public string $currency,
         public string $status,
-        public ?Carbon $created_at,
-        public ?Carbon $updated_at,
+        public mixed $created_at,
+        public mixed $updated_at,
         public ?PaymentCardData $payment_card,
         public ?PaymentIntentionData $payment_intention,
         public ?PayerData $payer,
@@ -40,5 +40,38 @@ class PaymentData extends Data
         $this->client_domain = $client_domain ? strtolower($client_domain) : null;
         $this->currency = strtoupper($currency);
         $this->status = strtoupper($status);
+        
+        //Detectar y convertir fechas dinámicamente
+        $this->created_at = $this->parseDate($created_at);
+        $this->updated_at = $this->parseDate($updated_at);
+    }
+
+    private function parseDate($value): ?Carbon
+    {
+        if (empty($value)) {
+            return null;
+        }
+
+        // Ya es un Carbon
+        if ($value instanceof Carbon) {
+            return $value;
+        }
+        
+        // Detectar formato ISO (contiene "T" o zona horaria)
+        if (preg_match('/T\d{2}:\d{2}:\d{2}/', $value)) {
+            return Carbon::parse($value);
+        }
+        
+        // Detectar formato MySQL
+        if (preg_match('/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/', $value)) {
+            return Carbon::createFromFormat('Y-m-d H:i:s', $value);
+        }
+
+        // Intentar parsear genéricamente
+        try {
+            return Carbon::parse($value);
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 }

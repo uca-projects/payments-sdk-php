@@ -9,7 +9,7 @@ use OpenApi\Attributes as OA;
 #[OA\Schema(
     schema: 'PaymentGatewayData',
     title: 'PaymentGatewayData',
-    description: 'Payment Gatewat attributes',
+    description: 'Payment Gateway attributes',
     properties: [
         new OA\Property(property: 'id', type: 'string', format: 'uuid', description: 'Id del gateway de pago'),
         new OA\Property(property: 'alias', type: 'string', description: 'Alias del gateway de pago'),

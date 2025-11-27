@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Data;
+namespace Uca\Payments\Data;
 
 use Spatie\LaravelData\Data;
 use Uca\Payments\Enums\PaymentStatusEnum;

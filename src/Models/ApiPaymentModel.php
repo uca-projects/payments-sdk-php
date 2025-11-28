@@ -141,6 +141,7 @@ class ApiPaymentModel extends Model
                     'int',
                     'float',
                     'bool',
+                    'mixed',
                     Carbon::class,
                     '?' . Carbon::class, // por si es nullable
                 ]);

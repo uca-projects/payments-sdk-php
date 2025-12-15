@@ -3,6 +3,7 @@
 namespace Uca\Payments;
 
 use Illuminate\Support\ServiceProvider;
+use Uca\Payments\Services\ApiPaymentService;
 
 class PaymentsServiceProvider extends ServiceProvider
 {
@@ -21,5 +22,7 @@ class PaymentsServiceProvider extends ServiceProvider
             __DIR__ . '/../config/uca-payments-sdk.php',
             'uca-payments-sdk'
         );
+
+        $this->app->singleton(ApiPaymentService::class, fn() => new ApiPaymentService());
     }
 }

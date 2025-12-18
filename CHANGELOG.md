@@ -15,6 +15,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Added automatic **token refresh handling**: if a request fails with `401 Unauthorized`, the system attempts to fetch a new token and retry the operation automatically.
   - Added configuration validation in the constructor to ensure `client_key`, `client_secret`, and `payment-gateway-url` are present before making requests.
 
+- **Middleware**:
+
+  - Added `CheckWebAccessPermission` to validate web access using the application key.
+  - Added `RestrictToLocal` to restrict access to local environments.
+
 - **Architecture Refactoring**:
   - Centralized all API endpoints into a class constant (`ENDPOINTS`) for easier maintenance and to avoid scattered hardcoded URLs.
   - Standardized `doGet` and `doPost` methods to handle headers, JSON parsing, and error handling consistently.

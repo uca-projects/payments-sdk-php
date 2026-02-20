@@ -5,18 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.2] - 2026-02-20
+
+### Fixed
+
+- **Payment Processing**: removed `strtolower` normalization for `external_reference` in `PaymentData` constructor to ensure case-sensitive references are preserved.
+
 ## [1.0.1] - 2025-12-18
 
 ### Features
 
 - **Authentication & Security**:
-
   - Implemented full authentication logic against the Payment API.
   - Added automatic **token refresh handling**: if a request fails with `401 Unauthorized`, the system attempts to fetch a new token and retry the operation automatically.
   - Added configuration validation in the constructor to ensure `client_key`, `client_secret`, and `payment-gateway-url` are present before making requests.
 
 - **Middleware**:
-
   - Added `CheckWebAccessPermission` to validate web access using the application key.
   - Added `RestrictToLocal` to restrict access to local environments.
 

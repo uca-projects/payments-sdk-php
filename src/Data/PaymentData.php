@@ -36,11 +36,10 @@ class PaymentData extends Data
         public ?PaymentGatewayData $payment_gateway
     ) {
         // Normalize values
-        $this->external_reference = strtolower($external_reference);
         $this->client_domain = $client_domain ? strtolower($client_domain) : null;
         $this->currency = strtoupper($currency);
         $this->status = strtoupper($status);
-        
+
         //Detectar y convertir fechas dinámicamente
         $this->created_at = $this->parseDate($created_at);
         $this->updated_at = $this->parseDate($updated_at);
@@ -56,12 +55,12 @@ class PaymentData extends Data
         if ($value instanceof Carbon) {
             return $value;
         }
-        
+
         // Detectar formato ISO (contiene "T" o zona horaria)
         if (preg_match('/T\d{2}:\d{2}:\d{2}/', $value)) {
             return Carbon::parse($value);
         }
-        
+
         // Detectar formato MySQL
         if (preg_match('/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/', $value)) {
             return Carbon::createFromFormat('Y-m-d H:i:s', $value);

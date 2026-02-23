@@ -16,6 +16,7 @@ class ApiPaymentService
         'transaction_id' => 'payment/remote/{paymentGatewayId}/gateway_transaction_id/{transactionId}',
         'search' => 'payment/local/search?',
         'payment_gateway' => 'payment-gateway',
+        'payment_sync' => 'payment/{uniqueField}/{value}/sync',
         'auth_token' => 'auth/token',
     ];
 
@@ -35,6 +36,15 @@ class ApiPaymentService
 
         $this->token = Cache::get('payment_gateway_access_token') ?? $this->refreshAccessToken();
     }
+    public function sync(string $unique_field, string $value): array
+    {
+        $url_params = [
+            'uniqueField' => $unique_field,
+            'value' => $value
+        ];
+        return $this->doPut(self::ENDPOINTS['payment_sync'], $url_params);
+    }
+
     public function byExternalReference(string $payment_gateway_id, string $external_reference): array
     {
         $params = [
@@ -140,6 +150,28 @@ class ApiPaymentService
         if ($response->status() === HttpFoundationResponse::HTTP_UNAUTHORIZED && $retry) {
             $this->token = $this->refreshAccessToken(); // Clear expired token
             return $this->doPost($endpoint, $params, false);
+        }
+
+        if ($response->status() !== HttpFoundationResponse::HTTP_OK && $response->status() !== HttpFoundationResponse::HTTP_CREATED) {
+            // TO DO reemplazar por un log de error para que no vea el cliente
+            throw new HttpException($response->status(), $response->json()['message']);
+        }
+        return  $response->json();
+    }
+
+    private function doPut(string $endpoint, array $url_params = [], array $body_params = [], bool $retry = true): array
+    {
+        $response = Http::withToken($this->token)
+            ->withHeaders([
+                'Content-Type' => 'application/json',
+            ])->acceptJson()
+            ->withUrlParameters($url_params)
+            ->put(config('uca-payments-sdk.payment-gateway-url') . '/api/' . $endpoint, $body_params);
+
+        // Retry on 401 Unauthorized
+        if ($response->status() === HttpFoundationResponse::HTTP_UNAUTHORIZED && $retry) {
+            $this->token = $this->refreshAccessToken(); // Clear expired token
+            return $this->doPut($endpoint, $url_params, $body_params, false);
         }
 
         if ($response->status() !== HttpFoundationResponse::HTTP_OK && $response->status() !== HttpFoundationResponse::HTTP_CREATED) {

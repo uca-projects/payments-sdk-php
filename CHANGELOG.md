@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.3] - 2026-02-23
+
+### Features
+
+- **Payment Sync**: Added `sync` method to `ApiPaymentService` to allow synchronizing payment status using a unique field and value.
+- **API Client**: Implemented `doPut` helper method in `ApiPaymentService` to support PUT requests.
+- **Endpoints**: Added `payment/{uniqueField}/{value}/sync` endpoint definition.
+
 ## [1.0.2] - 2026-02-20
 
 ### Fixed

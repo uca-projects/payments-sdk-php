@@ -17,5 +17,7 @@ class PaymentSearchData extends Data
         public ?float $max_amount,
         public ?string $min_created_at,
         public ?string $max_created_at,
+        public ?int $page,
+        public ?int $per_page,
     ) {}
 }

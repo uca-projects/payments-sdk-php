@@ -4,7 +4,7 @@ namespace Uca\Payments\Builders;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Uca\Payments\Services\ApiPaymentService;
+use Uca\Payments\Services\ApiLocalPaymentService;
 use Uca\Payments\Models\ApiPaymentModel;
 use Illuminate\Support\Str;
 
@@ -26,7 +26,7 @@ class ApiPaymentBuilder
             return null;
         }
 
-        $response = app(ApiPaymentService::class)->byExternalReference($payment_gateway_id, $externalReference);
+        $response = app(ApiLocalPaymentService::class)->byExternalReference($payment_gateway_id, $externalReference);
         return app(ApiPaymentBuilder::class)->fetchOne($response);
     }
 
@@ -36,7 +36,7 @@ class ApiPaymentBuilder
             return null;
         }
 
-        $response = app(ApiPaymentService::class)->byTransactionId($payment_gateway_id, $transaction_id);
+        $response = app(ApiLocalPaymentService::class)->byTransactionId($payment_gateway_id, $transaction_id);
         return app(ApiPaymentBuilder::class)->fetchOne($response);
     }
 
@@ -46,7 +46,7 @@ class ApiPaymentBuilder
             return null;
         }
 
-        $response = app(ApiPaymentService::class)->byPreferenceId($preference_id);
+        $response = app(ApiLocalPaymentService::class)->byPreferenceId($preference_id);
         return app(ApiPaymentBuilder::class)->fetchOne($response);
     }
 
@@ -72,7 +72,7 @@ class ApiPaymentBuilder
 
     public function get(): Collection
     {
-        $response = app(ApiPaymentService::class)->search($this->filters);
+        $response = app(ApiLocalPaymentService::class)->search($this->filters);
         return $this->fetchMany($response);
     }
 
@@ -87,7 +87,7 @@ class ApiPaymentBuilder
             return null;
         }
 
-        $response = app(ApiPaymentService::class)->byId($uuid);
+        $response = app(ApiLocalPaymentService::class)->byId($uuid);
         return $this->fetchOne($response);
     }
 
@@ -122,7 +122,7 @@ class ApiPaymentBuilder
         $this->filters['per_page'] = ($perPage > 50) ? 50 : $perPage;
         $this->filters['page'] = $page;
 
-        $response = app(ApiPaymentService::class)->search($this->filters);
+        $response = app(ApiLocalPaymentService::class)->search($this->filters);
 
         $data = $this->fetchMany($response);
 

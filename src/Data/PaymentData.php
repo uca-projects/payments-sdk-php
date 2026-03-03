@@ -15,10 +15,10 @@ use Uca\Payments\Data\PaymentIntentionData;
 class PaymentData extends Data
 {
     public function __construct(
-        public string $id,
-        public string $client_id,
-        public string $preference_id,
-        public string $payment_gateway_id,
+        public ?string $id,
+        public ?string $client_id,
+        public ?string $preference_id,
+        public ?string $payment_gateway_id,
         public string $external_reference,
         public ?string $gateway_transaction_id,
         public ?string $client_domain,

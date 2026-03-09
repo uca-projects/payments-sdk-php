@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **API Base Client**: Refactored `ApiPaymentService` to act as a base class, extracting local and remote methods to their respective subclasses. Changed HTTP methods to `protected` and added `makeUrlFromBody` utility.
 - **Payment Builder**: Updated `ApiPaymentBuilder` to use `ApiLocalPaymentService` instead of `ApiPaymentService`.
 - **Payment Model**: Standardize payment model attribute keys, generalize payment lookup methods, and add gateway transaction ID to payment search data.
+- **Payment Data**: Changed properties format from `snake_case` to `camelCase` (`paymentCard`, `paymentIntention`, `paymentGateway`) and implemented a dynamic `parseDate` parser for `created_at` and `updated_at` to accept mixed formats.
 
 ## [1.0.3] - 2026-02-23
 

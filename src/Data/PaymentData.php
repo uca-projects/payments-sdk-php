@@ -27,13 +27,13 @@ class PaymentData extends Data
         public string $status,
         public mixed $created_at,
         public mixed $updated_at,
-        public ?PaymentCardData $payment_card,
-        public ?PaymentIntentionData $payment_intention,
+        public ?PaymentCardData $paymentCard,
+        public ?PaymentIntentionData $paymentIntention,
         public ?PayerData $payer,
         #[DataCollectionOf(ItemData::class)]
         public ?array $items,
         public ?ClientData $client,
-        public ?PaymentGatewayData $payment_gateway
+        public ?PaymentGatewayData $paymentGateway
     ) {
         // Normalize values
         $this->client_domain = $client_domain ? strtolower($client_domain) : null;

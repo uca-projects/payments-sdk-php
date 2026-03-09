@@ -7,8 +7,9 @@ use Uca\Payments\Data\PaymentGatewayData;
 class ApiLocalPaymentService extends ApiPaymentService
 {
     private const ENDPOINTS = [
-        'search' => 'payment/local/search?',
         'payment_gateway' => 'payment-gateway',
+        'search' => 'payment/local/search?',
+        'unique_field' => 'payment/local/{uniqueField}/{value}',
         'payment_sync' => 'payment/{uniqueField}/{value}/sync',
     ];
 
@@ -25,22 +26,22 @@ class ApiLocalPaymentService extends ApiPaymentService
         return $this->doPut(self::ENDPOINTS['payment_sync'], $url_params);
     }
 
-    public function byExternalReference(string $payment_gateway_id, string $external_reference): array
+    public function byExternalReference(string $external_reference): array
     {
         $params = [
-            'externalReference' => $external_reference,
-            'paymentGatewayId' => $payment_gateway_id
+            'uniqueField' => 'external_reference',
+            'value' => $external_reference,
         ];
-        return $this->doGet(self::ENDPOINTS['external_reference'], $params);
+        return $this->doGet(self::ENDPOINTS['unique_field'], $params);
     }
 
-    public function byTransactionId(string $payment_gateway_id, string $transaction_id): array
+    public function byTransactionId(string $transaction_id): array
     {
         $params = [
-            'transactionId' => $transaction_id,
-            'paymentGatewayId' => $payment_gateway_id
+            'uniqueField' => 'gateway_transaction_id',
+            'value' => $transaction_id
         ];
-        return $this->doGet(self::ENDPOINTS['transaction_id'], $params);
+        return $this->doGet(self::ENDPOINTS['unique_field'], $params);
     }
 
     public function byPreferenceId(string $preference_id): array

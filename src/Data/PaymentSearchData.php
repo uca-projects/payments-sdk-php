@@ -12,6 +12,7 @@ class PaymentSearchData extends Data
         public ?string $preference_id,
         public ?string $client_id,
         public ?string $payment_gateway_id,
+        public ?string $gateway_transaction_id,
         public ?PaymentStatusEnum $status,
         public ?float $min_amount,
         public ?float $max_amount,

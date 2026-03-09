@@ -46,13 +46,13 @@ class ApiPaymentModel extends Model
         parent::__construct($attributes);
 
         // Genero las relaciones
-        $this->setPaymentCard($attributes['payment_card'] ?? null);
-        $this->setPaymentIntention($attributes['payment_intention'] ?? null);
-        $this->setPaymentDetail($attributes['payment_detail'] ?? null);
+        $this->setPaymentCard($attributes['paymentCard'] ?? null);
+        $this->setPaymentIntention($attributes['paymentIntention'] ?? null);
+        $this->setPaymentDetail($attributes['paymentDetail'] ?? null);
         $this->setPayer($attributes['payer'] ?? null);
         $this->setItems($attributes['items'] ?? null);
         $this->setClient($attributes['client'] ?? null);
-        $this->setPaymentGateway($attributes['payment_gateway'] ?? null);
+        $this->setPaymentGateway($attributes['paymentGateway'] ?? null);
     }
 
     public static function query(): ApiPaymentBuilder

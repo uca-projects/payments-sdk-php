@@ -11,6 +11,7 @@ use Uca\Payments\Data\PayerData;
 use Uca\Payments\Data\PaymentCardData;
 use Uca\Payments\Data\PaymentGatewayData;
 use Uca\Payments\Data\PaymentIntentionData;
+use Uca\Payments\Data\PaymentDetailData;
 
 class PaymentData extends Data
 {
@@ -33,7 +34,8 @@ class PaymentData extends Data
         #[DataCollectionOf(ItemData::class)]
         public ?array $items,
         public ?ClientData $client,
-        public ?PaymentGatewayData $paymentGateway
+        public ?PaymentGatewayData $paymentGateway,
+        public ?PaymentDetailData $paymentDetail
     ) {
         // Normalize values
         $this->client_domain = $client_domain ? strtolower($client_domain) : null;

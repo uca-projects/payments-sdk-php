@@ -4,8 +4,8 @@
   "type": "library",
   "require": {
     "php": "^8.3",
-    "darkaonline/l5-swagger": "^8.0 || ^9.0",
-    "spatie/laravel-data": "^2.0 || ^4.15"
+    "darkaonline/l5-swagger": "^11.0",
+    "spatie/laravel-data": "^4.20"
   },
   "license": "MIT",
   "autoload": {

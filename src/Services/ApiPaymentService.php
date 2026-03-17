@@ -62,7 +62,7 @@ class ApiPaymentService
                 'Content-Type' => 'application/json',
             ])->acceptJson()
             ->withUrlParameters($params)
-            ->get(config('uca-payments-sdk.payment-gateway-url') . '/api/' . $endpoint);
+            ->get($this->baseUrl . '/api/' . $endpoint);
 
         $data = $response->json();
 
@@ -92,7 +92,7 @@ class ApiPaymentService
             ->withHeaders([
                 'Content-Type' => 'application/json',
             ])->acceptJson()
-            ->post(config('uca-payments-sdk.payment-gateway-url') . '/api/' . $endpoint, $params);
+            ->post($this->baseUrl . '/api/' . $endpoint, $params);
 
         // Retry on 401 Unauthorized
         if ($response->status() === HttpFoundationResponse::HTTP_UNAUTHORIZED && $retry) {
@@ -114,7 +114,7 @@ class ApiPaymentService
                 'Content-Type' => 'application/json',
             ])->acceptJson()
             ->withUrlParameters($url_params)
-            ->put(config('uca-payments-sdk.payment-gateway-url') . '/api/' . $endpoint, $body_params);
+            ->put($this->baseUrl . '/api/' . $endpoint, $body_params);
 
         // Retry on 401 Unauthorized
         if ($response->status() === HttpFoundationResponse::HTTP_UNAUTHORIZED && $retry) {

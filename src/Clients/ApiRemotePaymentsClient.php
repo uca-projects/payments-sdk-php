@@ -3,15 +3,14 @@
 namespace Uca\Payments\Clients;
 
 use Uca\Payments\Data\Payment\PaymentData;
-use Uca\Payments\Data\Requests\Payments\GetPaymentData;
-use Uca\Payments\Data\Requests\Payments\SearchPaymentsData;
+use Uca\Payments\Data\Requests\Remote\GetPaymentData;
+use Uca\Payments\Data\Requests\Remote\SearchPaymentsData;
 
-class ApiPaymentClient extends AbstractApiClient
+class ApiRemotePaymentsClient extends AbstractApiClient
 {
     private const ENDPOINTS = [
-        'search' => '/api/payments/search?sort={sort}&criteria={criteria}&external_reference={external_reference}&range={range}&begin_date={begin_date}&end_date={end_date}&store_id={store_id}&pos_id={pos_id}&collector.id={collector_id}&payer.id={payer_id}&offset={offset}&limit={limit}',
-        'getPayment' => '/api/payments/{uniqueField}/{value}',
-        'sync' => '/api/payments/{uniqueField}/{value}/sync',
+        'search' => '/api/payments/remote/search?sort={sort}&criteria={criteria}&external_reference={external_reference}&range={range}&begin_date={begin_date}&end_date={end_date}&store_id={store_id}&pos_id={pos_id}&collector.id={collector_id}&payer.id={payer_id}&offset={offset}&limit={limit}',
+        'getPayment' => '/api/payments/remote/{uniqueField}/{value}',
     ];
 
     public function __construct()
@@ -44,14 +43,5 @@ class ApiPaymentClient extends AbstractApiClient
     public function search(SearchPaymentsData $searchData): array
     {
         return $this->doGet(self::ENDPOINTS['search'], $searchData->toArray());
-    }
-
-    public function sync(string $unique_field, string $value): array
-    {
-        $url_params = [
-            'uniqueField' => $unique_field,
-            'value' => $value
-        ];
-        return $this->doPut(self::ENDPOINTS['payment_sync'], $url_params);
     }
 }

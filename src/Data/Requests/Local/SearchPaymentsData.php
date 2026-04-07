@@ -1,6 +1,6 @@
 <?php
 
-namespace Uca\Payments\Data\Requests\Payments;
+namespace Uca\Payments\Data\Requests\Local;
 
 use Uca\Payments\Enums\PaymentStatusEnum;
 use Illuminate\Validation\Rules\Enum;

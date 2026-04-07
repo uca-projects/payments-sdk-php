@@ -1,12 +1,12 @@
 <?php
 
-namespace Uca\Payments\Http\Requests\Payments;
+namespace Uca\Payments\Http\Requests\Local;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Uca\Payments\Enums\PaymentStatusEnum;
 
-class PaymentSearchRequest extends FormRequest
+class SearchPaymentsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

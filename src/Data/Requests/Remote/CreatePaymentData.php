@@ -1,6 +1,6 @@
 <?php
 
-namespace Uca\Payments\Data\Requests\Gateways;
+namespace Uca\Payments\Data\Requests\Remote;
 
 use Uca\Payments\Data\Payment\ItemData;
 use Uca\Payments\Data\Payment\PayerData;

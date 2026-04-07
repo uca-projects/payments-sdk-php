@@ -1,11 +1,14 @@
 <?php
 
-namespace Uca\Payments\Data\Requests\Gateways;
+namespace Uca\Payments\Data\Requests\Remote;
 
+use Illuminate\Support\Carbon;
 use Uca\Payments\Enums\PaymentStatusEnum;
 use Illuminate\Validation\Rules\Enum;
 use Spatie\LaravelData\Attributes\Validation\Rule;
 use Spatie\LaravelData\Data;
+use Spatie\LaravelData\Casts\DateTimeInterfaceCast;
+use Spatie\LaravelData\Attributes\WithCast;
 
 /**
  * @param  string|null  $sort
@@ -38,11 +41,13 @@ class SearchPaymentsData extends Data
         #[Rule('in:date_created,date_last_updated,date_approved,money_release_date')]
         public ?string $range = null,
 
+        #[WithCast(DateTimeInterfaceCast::class, format: 'Y-m-d')]
         #[Rule('date')]
-        public ?string $begin_date = null,
+        public ?Carbon $begin_date = null,
 
+        #[WithCast(DateTimeInterfaceCast::class, format: 'Y-m-d')]
         #[Rule(['date', 'after_or_equal:begin_date'])]
-        public ?string $end_date = null,
+        public ?Carbon $end_date = null,
 
         #[Rule([new Enum(PaymentStatusEnum::class)])]
         public ?PaymentStatusEnum $status = null,
@@ -54,11 +59,13 @@ class SearchPaymentsData extends Data
         public ?string $payer_id = null,
 
         #[Rule('integer')]
-        public ?int $offset = null,
+        public ?int $offset = 0,
 
         #[Rule('integer')]
         public ?int $limit = null,
     ) {
         $this->limit ??= config('payment-gateways.search.limit');
+        $this->begin_date?->startOfDay();
+        $this->end_date?->endOfDay();
     }
 }

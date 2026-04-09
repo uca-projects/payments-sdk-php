@@ -27,4 +27,13 @@ class GetPaymentRequest extends FormRequest
             'value' => ['required', 'string'],
         ];
     }
+
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'payment_gateway_id' => $this->route('payment_gateway_id'),
+            'unique_field' => $this->route('unique_field'),
+            'value' => $this->route('value'),
+        ]);
+    }
 }

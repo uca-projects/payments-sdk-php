@@ -13,12 +13,12 @@ use Uca\Payments\Exceptions\ApiClientException;
 
 class ApiLocalPaymentService
 {
-    public function __construct(private ApiLocalPaymentsClient $apiClient) {}
+    public function __construct(private ApiLocalPaymentsClient $apiLocalPaymentsClient) {}
 
     public function search(SearchPaymentsData $searchPaymentsData): PaymentCollectionData
     {
         try {
-            $response = $this->apiClient->search($searchPaymentsData);
+            $response = $this->apiLocalPaymentsClient->search($searchPaymentsData);
 
             return new PaymentCollectionData(
                 items: PaymentData::collect($response['data'], DataCollection::class),
@@ -32,7 +32,7 @@ class ApiLocalPaymentService
     public function getPayment(GetPaymentData $getPaymentData): PaymentData
     {
         try {
-            $response = $this->apiClient->getPayment($getPaymentData);
+            $response = $this->apiLocalPaymentsClient->getPayment($getPaymentData);
             return PaymentData::from($response['data']);
         } catch (ApiClientException $e) {
             throw $e;

@@ -16,15 +16,6 @@ class SearchPaymentsRequest extends FormRequest
         return true;
     }
 
-    protected function prepareForValidation(): void
-    {
-        if (! $this->has('limit')) {
-            $this->merge([
-                'limit' => config('payment-gateways.search.limit'),
-            ]);
-        }
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -33,6 +24,7 @@ class SearchPaymentsRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'payment_gateway_id' => ['required', 'uuid'],
             'sort' => ['nullable', 'string', 'in:date_approved,date_created,date_last_updated,id,money_release_date'],
             'criteria' => ['nullable', 'string', 'in:asc,desc'],
             'external_reference' => ['nullable', 'string'],
@@ -48,5 +40,12 @@ class SearchPaymentsRequest extends FormRequest
             'offset' => ['nullable', 'integer'],
             'limit' => ['nullable', 'integer'],
         ];
+    }
+
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'payment_gateway_id' => $this->route('payment_gateway_id'),
+        ]);
     }
 }

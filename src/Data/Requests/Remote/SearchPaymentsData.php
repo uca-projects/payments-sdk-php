@@ -7,8 +7,8 @@ use Uca\Payments\Enums\PaymentStatusEnum;
 use Illuminate\Validation\Rules\Enum;
 use Spatie\LaravelData\Attributes\Validation\Rule;
 use Spatie\LaravelData\Data;
-use Spatie\LaravelData\Casts\DateTimeInterfaceCast;
 use Spatie\LaravelData\Attributes\WithCast;
+use Uca\Payments\Casts\CarbonDateCast;
 
 /**
  * @param  string|null  $sort
@@ -30,6 +30,9 @@ class SearchPaymentsData extends Data
 {
     public function __construct(
 
+        #[Rule('uuid')]
+        public ?string $payment_gateway_id = null,
+
         #[Rule('in:date_approved,date_created,date_last_updated,id,money_release_date')]
         public ?string $sort = null,
 
@@ -41,11 +44,11 @@ class SearchPaymentsData extends Data
         #[Rule('in:date_created,date_last_updated,date_approved,money_release_date')]
         public ?string $range = null,
 
-        #[WithCast(DateTimeInterfaceCast::class, format: 'Y-m-d')]
+        #[WithCast(CarbonDateCast::class, format: 'Y-m-d')]
         #[Rule('date')]
         public ?Carbon $begin_date = null,
 
-        #[WithCast(DateTimeInterfaceCast::class, format: 'Y-m-d')]
+        #[WithCast(CarbonDateCast::class, format: 'Y-m-d')]
         #[Rule(['date', 'after_or_equal:begin_date'])]
         public ?Carbon $end_date = null,
 

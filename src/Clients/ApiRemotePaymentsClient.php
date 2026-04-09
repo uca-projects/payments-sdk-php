@@ -9,8 +9,8 @@ use Uca\Payments\Data\Requests\Remote\SearchPaymentsData;
 class ApiRemotePaymentsClient extends AbstractApiClient
 {
     private const ENDPOINTS = [
-        'search' => '/api/payments/remote/search?sort={sort}&criteria={criteria}&external_reference={external_reference}&range={range}&begin_date={begin_date}&end_date={end_date}&store_id={store_id}&pos_id={pos_id}&collector.id={collector_id}&payer.id={payer_id}&offset={offset}&limit={limit}',
-        'getPayment' => '/api/payments/remote/{uniqueField}/{value}',
+        'search' => '/api/remote/payment/gateway/{payment_gateway_id}/search?sort={sort}&criteria={criteria}&external_reference={external_reference}&range={range}&begin_date={begin_date}&end_date={end_date}&store_id={store_id}&pos_id={pos_id}&collector.id={collector_id}&payer.id={payer_id}&offset={offset}&limit={limit}',
+        'getPayment' => '/api/remote/payment/gateway/{payment_gateway_id}/{unique_field}/{value}',
     ];
 
     public function __construct()
@@ -18,7 +18,7 @@ class ApiRemotePaymentsClient extends AbstractApiClient
         parent::__construct();
     }
 
-    final public function getPayment(GetPaymentData $getPaymentRequestData): ?PaymentData
+    final public function getPayment(GetPaymentData $getPaymentRequestData): array
     {
         if (!in_array($getPaymentRequestData->unique_field, ['gateway_transaction_id', 'external_reference'])) {
             throw new \Exception("Invalid payment unique field: {$getPaymentRequestData->unique_field}");
@@ -26,22 +26,17 @@ class ApiRemotePaymentsClient extends AbstractApiClient
 
         $response = $this->doGet(
             self::ENDPOINTS['getPayment'],
-            [
-                'uniqueField' => $getPaymentRequestData->unique_field,
-                'value' => $getPaymentRequestData->value
-            ]
+            $getPaymentRequestData->toArray()
         );
 
-        // Payment not found
-        if (empty($response)) {
-            return null;
-        }
-
-        return PaymentData::from($response);
+        return $response;
     }
 
     public function search(SearchPaymentsData $searchData): array
     {
-        return $this->doGet(self::ENDPOINTS['search'], $searchData->toArray());
+        return $this->doGet(
+            self::ENDPOINTS['search'],
+            $searchData->toArray()
+        );
     }
 }

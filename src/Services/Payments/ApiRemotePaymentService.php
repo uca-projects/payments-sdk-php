@@ -1,50 +1,42 @@
 <?php
 
-namespace Uca\Payments\Services;
+namespace Uca\Payments\Services\Payments;
 
-class ApiRemotePaymentService extends ApiPaymentService
+use Spatie\LaravelData\DataCollection;
+use Uca\Payments\Clients\ApiRemotePaymentsClient;
+use Uca\Payments\Data\PaginationData;
+use Uca\Payments\Data\Payment\PaymentCollectionData;
+use Uca\Payments\Data\Payment\PaymentData;
+use Uca\Payments\Data\Requests\Remote\GetPaymentData;
+use Uca\Payments\Data\Requests\Remote\SearchPaymentsData;
+use Uca\Payments\Exceptions\ApiClientException;
+
+class ApiRemotePaymentService
 {
-    private const ENDPOINTS = [
-        'external_reference' => 'payment/remote/{paymentGatewayId}/external_reference/{externalReference}',
-        'transaction_id' => 'payment/remote/{paymentGatewayId}/gateway_transaction_id/{transactionId}',
-        'search' => 'payment/remote/{paymentGatewayId}/search?',
-    ];
+    public function __construct(
+        private ApiRemotePaymentsClient $apiRemotePaymentsClient
+    ) {}
 
-    public function __construct()
+    public function search(SearchPaymentsData $searchPaymentsData): PaymentCollectionData
     {
-        parent::__construct();
-    }
-
-    public function byExternalReference(string $payment_gateway_id, string $external_reference): array
-    {
-        $params = [
-            'externalReference' => $external_reference,
-            'paymentGatewayId' => $payment_gateway_id
-        ];
-        return $this->doGet(self::ENDPOINTS['external_reference'], $params);
-    }
-
-    public function byTransactionId(string $payment_gateway_id, string $transaction_id): array
-    {
-        $params = [
-            'transactionId' => $transaction_id,
-            'paymentGatewayId' => $payment_gateway_id
-        ];
-        return $this->doGet(self::ENDPOINTS['transaction_id'], $params);
-    }
-
-    public function search(array $params = []): array
-    {
-        if (!isset($params['payment_gateway_id'])) {
-            throw new \InvalidArgumentException('The "payment_gateway_id" parameter is required.');
+        try {
+            $response = $this->apiRemotePaymentsClient->search($searchPaymentsData);
+            return new PaymentCollectionData(
+                items: PaymentData::collect($response['data'], DataCollection::class),
+                pagination: PaginationData::from($response['pagination']),
+            );
+        } catch (ApiClientException $e) {
+            throw $e;
         }
+    }
 
-        $endpoint = self::ENDPOINTS['search'] . $this->makeUrlFromBody($params);
-
-        $params = array_merge($params, [
-            'paymentGatewayId' => $params['payment_gateway_id'],
-        ]);
-
-        return $this->doGet($endpoint, $params);
+    public function getPayment(GetPaymentData $getPaymentData): ?PaymentData
+    {
+        try {
+            $response = $this->apiRemotePaymentsClient->getPayment($getPaymentData);
+            return empty($response['data']) ? null : PaymentData::from($response['data']);
+        } catch (ApiClientException $e) {
+            throw $e;
+        }
     }
 }

@@ -25,4 +25,11 @@ class GetPaymentRequest extends FormRequest
             'id' => ['required', 'uuid'],
         ];
     }
+
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'id' => $this->route('id'),
+        ]);
+    }
 }

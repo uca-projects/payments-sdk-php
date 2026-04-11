@@ -14,8 +14,11 @@ use Uca\Payments\Exceptions\ApiClientException;
 class ApiRemotePaymentService
 {
     public function __construct(
-        private ApiRemotePaymentsClient $apiRemotePaymentsClient
-    ) {}
+        private ApiRemotePaymentsClient $apiRemotePaymentsClient,
+        private SearchPaymentsData $searchCriteria
+    ) {
+        $this->searchCriteria = SearchPaymentsData::from([]);
+    }
 
     public function search(SearchPaymentsData $searchPaymentsData): PaymentCollectionData
     {
@@ -38,5 +41,33 @@ class ApiRemotePaymentService
         } catch (ApiClientException $e) {
             throw $e;
         }
+    }
+
+    public function byExternalReference(string $value): self
+    {
+        $this->searchCriteria->external_reference = $value;
+        return $this;
+    }
+
+    public function byGatewayTransactionId(string $value): self
+    {
+        $this->searchCriteria->gateway_transaction_id = $value;
+        return $this;
+    }
+
+    public function byPaymentGatewayId(string $value): self
+    {
+        $this->searchCriteria->payment_gateway_id = $value;
+        return $this;
+    }
+
+    public function get(): PaymentCollectionData
+    {
+        return $this->search($this->searchCriteria);
+    }
+
+    public function getSearchData(): SearchPaymentsData
+    {
+        return $this->searchCriteria;
     }
 }

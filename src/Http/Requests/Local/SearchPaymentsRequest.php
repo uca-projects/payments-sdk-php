@@ -25,8 +25,8 @@ class SearchPaymentsRequest extends FormRequest
     {
         return [
             'external_reference_like' => ['nullable', 'string', 'max:255'],
-            'preference_id' => ['nullable', 'uuid', 'exists:preferences,id'],
-            'client_id' => ['nullable', 'uuid', 'exists:clients,id'],
+            'preference_id' => ['nullable', 'uuid'],
+            'client_id' => ['nullable', 'uuid'],
             'payment_gateway_id' => ['nullable', 'uuid', 'exists:payment_gateways,id'],
             'gateway_transaction_id' => ['nullable', 'string', 'max:255'],
             'status' => ['nullable', 'string', Rule::enum(PaymentStatusEnum::class)],

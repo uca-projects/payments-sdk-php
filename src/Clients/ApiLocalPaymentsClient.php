@@ -8,7 +8,7 @@ use Uca\Payments\Data\Requests\Local\SearchPaymentsData;
 class ApiLocalPaymentsClient extends AbstractApiClient
 {
     private const ENDPOINTS = [
-        'search' => '/api/local/payment/search?sort={sort}&criteria={criteria}&external_reference={external_reference}&range={range}&begin_date={begin_date}&end_date={end_date}&store_id={store_id}&pos_id={pos_id}&collector.id={collector_id}&payer.id={payer_id}&offset={offset}&limit={limit}',
+        'search' => '/api/local/payment/search?external_reference_like={external_reference_like}&preference_id={preference_id}&client_id={client_id}&payment_gateway_id={payment_gateway_id}&gateway_transaction_id={gateway_transaction_id}&status={status}&min_amount={min_amount}&max_amount={max_amount}&min_created_at={min_created_at}&max_created_at={max_created_at}&offset={offset}&limit={limit}',
         'getPayment' => '/api/local/payment/{id}',
         'sync' => '/api/local/payment/{id}/sync',
     ];

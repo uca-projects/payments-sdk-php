@@ -18,7 +18,7 @@ class ApiLocalPaymentsClient extends AbstractApiClient
         parent::__construct();
     }
 
-    final public function getPayment(GetPaymentData $getPaymentRequestData): array
+    public function getPayment(GetPaymentData $getPaymentRequestData): array
     {
         $response = $this->doGet(
             self::ENDPOINTS['getPayment'],

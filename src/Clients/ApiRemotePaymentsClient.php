@@ -2,7 +2,6 @@
 
 namespace Uca\Payments\Clients;
 
-use Uca\Payments\Data\Payment\PaymentData;
 use Uca\Payments\Data\Requests\Remote\GetPaymentData;
 use Uca\Payments\Data\Requests\Remote\SearchPaymentsData;
 

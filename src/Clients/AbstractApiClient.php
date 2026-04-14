@@ -119,16 +119,28 @@ abstract class AbstractApiClient
 
     final protected function doPost(string $endpoint, array $params): array
     {
-        $response = $this->withRetry()
-            ->post(ApiClientConfig::getBaseUrl() . $endpoint, $params);
-        return $response->json();
+        try {
+            $response = $this->withRetry()
+                ->post(ApiClientConfig::getBaseUrl() . $endpoint, $params);
+            return $response->json();
+        } catch (RequestException $e) {
+            throw ApiClientException::fromErrorData(
+                ApiErrorMapper::fromRequestException($e)
+            );
+        }
     }
 
     final protected function doPut(string $endpoint, array $url_params = [], array $body_params = []): array
     {
-        $response = $this->withRetry()
-            ->withUrlParameters($url_params)
-            ->put(ApiClientConfig::getBaseUrl() . $endpoint, $body_params);
-        return $response->json();
+        try {
+            $response = $this->withRetry()
+                ->withUrlParameters($url_params)
+                ->put(ApiClientConfig::getBaseUrl() . $endpoint, $body_params);
+            return $response->json();
+        } catch (RequestException $e) {
+            throw ApiClientException::fromErrorData(
+                ApiErrorMapper::fromRequestException($e)
+            );
+        }
     }
 }

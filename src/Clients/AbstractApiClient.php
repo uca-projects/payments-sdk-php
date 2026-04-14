@@ -40,7 +40,6 @@ abstract class AbstractApiClient
                     $exception->response->status() === 401
                 ) {
                     $this->invalidateAccessToken();
-
                     return true;
                 }
 
@@ -87,6 +86,7 @@ abstract class AbstractApiClient
         ];
 
         $response = Http::acceptJson()
+            ->throw()
             ->post(ApiClientConfig::getBaseUrl() . self::ENDPOINTS['auth_token'], $payload);
 
         $token = $response->json('access_token');

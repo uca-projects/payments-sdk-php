@@ -9,7 +9,7 @@ use Uca\Payments\Data\Requests\Remote\SearchPaymentsData;
 class ApiRemotePaymentsClient extends AbstractApiClient
 {
     private const ENDPOINTS = [
-        'search' => '/api/remote/payment/gateway/{payment_gateway_id}/search?sort={sort}&criteria={criteria}&external_reference={external_reference}&range={range}&begin_date={begin_date}&end_date={end_date}&store_id={store_id}&pos_id={pos_id}&collector.id={collector_id}&payer.id={payer_id}&offset={offset}&limit={limit}',
+        'search' => '/api/remote/payment/gateway/{payment_gateway_id}/search?sort={sort}&criteria={criteria}&gateway_transaction_id={gateway_transaction_id}&external_reference={external_reference}&range={range}&begin_date={begin_date}&end_date={end_date}&store_id={store_id}&pos_id={pos_id}&collector.id={collector_id}&payer.id={payer_id}&offset={offset}&limit={limit}',
         'getPayment' => '/api/remote/payment/gateway/{payment_gateway_id}/{unique_field}/{value}',
     ];
 

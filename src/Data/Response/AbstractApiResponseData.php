@@ -20,6 +20,11 @@ class AbstractApiResponseData extends Data
         return $this;
     }
 
+    public function status(): int
+    {
+        return $this->status_code;
+    }
+
     /**
      * Override the default Spatie\LaravelData\Concerns\ResponsableData behavior.
      * By default, it returns 201 (HTTP_CREATED) for POST requests. We override it

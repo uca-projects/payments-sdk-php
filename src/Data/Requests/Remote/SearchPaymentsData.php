@@ -67,7 +67,7 @@ class SearchPaymentsData extends Data
         #[Rule('integer')]
         public ?int $limit = null,
     ) {
-        $this->limit ??= config('payment-gateways.search.limit');
+        $this->limit ??= config('uca-payments-sdk.max_search_results');
         $this->begin_date?->startOfDay();
         $this->end_date?->endOfDay();
     }

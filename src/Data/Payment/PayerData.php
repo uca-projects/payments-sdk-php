@@ -2,6 +2,7 @@
 
 namespace Uca\Payments\Data\Payment;
 
+use Spatie\LaravelData\Attributes\Computed;
 use Spatie\LaravelData\Data;
 use OpenApi\Attributes as OA;
 
@@ -51,5 +52,16 @@ class PayerData extends Data
         $this->surname = ucfirst(strtolower($surname));
         $this->email = $email ? strtolower($email) : null;
         $this->doc_type = $doc_type ? strtoupper($doc_type) : null;
+    }
+
+    public function fullName(): string
+    {
+        return trim($this->name . ' ' . $this->surname);
+    }
+
+    #[Computed]
+    public function full_name(): string
+    {
+        return $this->fullName();
     }
 }

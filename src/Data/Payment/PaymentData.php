@@ -5,6 +5,7 @@ namespace Uca\Payments\Data\Payment;
 use Illuminate\Support\Carbon;
 use Spatie\LaravelData\Attributes\DataCollectionOf;
 use Spatie\LaravelData\Data;
+use Uca\Payments\Enums\PaymentStatusEnum;
 
 class PaymentData extends Data
 {
@@ -18,7 +19,7 @@ class PaymentData extends Data
         public ?string $client_domain,
         public float $amount,
         public string $currency,
-        public string $status,
+        public PaymentStatusEnum $status,
         public mixed $created_at,
         public mixed $updated_at,
         public ?PaymentCardData $paymentCard,
@@ -33,7 +34,6 @@ class PaymentData extends Data
         // Normalize values
         $this->client_domain = $client_domain ? strtolower($client_domain) : null;
         $this->currency = strtoupper($currency);
-        $this->status = strtoupper($status);
 
         // Detectar y convertir fechas dinámicamente
         $this->created_at = $this->parseDate($created_at);

@@ -19,18 +19,11 @@ use OpenApi\Attributes as OA;
 )]
 class HolderData extends Data
 {
-
-    /**
-     * @param string $name
-     * @param string $surname
-     * @param string|null $doc_type
-     * @param string|null $doc_number
-     */
     public function __construct(
-        public string $name,
-        public string $surname,
-        public string $doc_type,
-        public string $doc_number,
+        public ?string $name,
+        public ?string $surname,
+        public ?string $doc_type,
+        public ?string $doc_number,
     ) {
         // Normalize values
         $this->name = ucfirst(strtolower($name));

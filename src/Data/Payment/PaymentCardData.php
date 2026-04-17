@@ -20,20 +20,12 @@ use Spatie\LaravelData\Data;
 )]
 class PaymentCardData extends Data
 {
-    /**
-     * @param string|null $bank_name
-     * @param string|null $issuer_name
-     * @param string|null $bin
-     * @param string|null $last_digits
-     * @param string|null $card_type
-     * @param array|null $holder
-     */
     public function __construct(
         public ?string $bank_name,
         public ?string $issuer_name,
         public ?string $bin,
         public ?string $last_digits,
         public ?string $card_type,
-        public ?array $holder,
+        public ?HolderData $holder,
     ) {}
 }

@@ -2,6 +2,7 @@
 
 namespace Uca\Payments\Data\Payment;
 
+use App\Models\PaymentCard;
 use OpenApi\Attributes as OA;
 use Spatie\LaravelData\Data;
 
@@ -28,4 +29,11 @@ class PaymentCardData extends Data
         public ?string $card_type,
         public ?HolderData $holder,
     ) {}
+
+    public function toModel(): PaymentCard
+    {
+        $attributes = array_filter($this->toArray(), fn($value) => !is_null($value));
+
+        return new PaymentCard($attributes);
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace Uca\Payments\Data\Payment;
 
+use App\Models\Item;
 use Spatie\LaravelData\Data;
 use OpenApi\Attributes as OA;
 
@@ -34,4 +35,11 @@ class ItemData extends Data
         public int $quantity,
         public float $unit_price
     ) {}
+
+    public function toModel(): Item
+    {
+        $attributes = array_filter($this->toArray(), fn($value) => !is_null($value));
+
+        return new Item($attributes);
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace Uca\Payments\Data\Payment;
 
+use App\Models\PaymentDetail;
 use OpenApi\Attributes as OA;
 use Spatie\LaravelData\Data;
 
@@ -33,4 +34,11 @@ class PaymentDetailData extends Data
         public ?int $installments,
         public ?array $error,
     ) {}
+
+    public function toModel(): PaymentDetail
+    {
+        $attributes = array_filter($this->toArray(), fn($value) => !is_null($value));
+
+        return new PaymentDetail($attributes);
+    }
 }

@@ -1,10 +1,10 @@
 <?php
 
-namespace Uca\Payments\Data;
+namespace Uca\Payments\Traits;
 
 use Spatie\LaravelData\Data;
 
-final class DataMerger
+final class DataMergerTrait
 {
     /**
      * @template T of Data

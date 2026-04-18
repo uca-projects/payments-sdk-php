@@ -2,6 +2,7 @@
 
 namespace Uca\Payments\Data\Payment;
 
+use App\Models\PaymentIntention;
 use OpenApi\Attributes as OA;
 use Spatie\LaravelData\Data;
 
@@ -36,4 +37,11 @@ class PaymentIntentionData extends Data
         public ?string $notification_url,
         public ?array $back_urls,
     ) {}
+
+    public function toModel(): PaymentIntention
+    {
+        $attributes = array_filter($this->toArray(), fn($value) => !is_null($value));
+
+        return new PaymentIntention($attributes);
+    }
 }

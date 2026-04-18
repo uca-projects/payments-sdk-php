@@ -2,6 +2,7 @@
 
 namespace Uca\Payments\Data\Payment;
 
+use App\Models\Payer;
 use Spatie\LaravelData\Attributes\Computed;
 use Spatie\LaravelData\Data;
 use OpenApi\Attributes as OA;
@@ -63,5 +64,12 @@ class PayerData extends Data
     public function full_name(): string
     {
         return $this->fullName();
+    }
+
+    public function toModel(): Payer
+    {
+        $attributes = array_filter($this->toArray(), fn($value) => !is_null($value));
+        
+        return new Payer($attributes);
     }
 }

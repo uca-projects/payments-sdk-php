@@ -6,9 +6,7 @@ use Spatie\LaravelData\Attributes\Validation\Rule;
 use Spatie\LaravelData\Data;
 
 /**
- * @param  string  $payment_gateway_id
- * @param  string  $unique_field
- * @param  string  $value
+ * @param  string  $id
  */
 class GetPaymentData extends Data
 {

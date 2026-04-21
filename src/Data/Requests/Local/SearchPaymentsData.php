@@ -57,7 +57,9 @@ class SearchPaymentsData extends Data
         #[Rule(['integer', 'min:0'])]
         public ?int $offset = 0,
 
-        #[Rule(['integer', 'min:1', 'max:100'])]
+        #[Rule(['integer', 'min:1', 'max:500'])]
         public ?int $limit = null,
-    ) {}
+    ) {
+        $this->limit ??= config('uca-payments-sdk.max_search_results');
+    }
 }

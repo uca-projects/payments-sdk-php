@@ -29,8 +29,6 @@ class PaymentDetailData extends Data
      * @param string|null $error
      */
     public function __construct(
-        public ?int $id,
-        public ?string $payment_id,
         public ?array $token_card,
         public ?string $ticket,
         public ?string $card_authorization_code,

@@ -31,8 +31,6 @@ class PaymentIntentionData extends Data
      * @param array|null $back_urls
      */
     public function __construct(
-        public ?int $id,
-        public ?string $payment_id,
         public ?string $transaction_intent_id,
         public ?string $checkout_url,
         public ?string $qr,

@@ -30,8 +30,6 @@ class ItemData extends Data
      * @param float $unit_price
      */
     public function __construct(
-        public ?int $id,
-        public ?string $payment_id,
         public ?string $item_reference,
         public string $title,
         public ?string $description,

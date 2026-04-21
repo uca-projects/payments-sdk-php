@@ -23,8 +23,6 @@ class PaymentCardData extends Data
 {
     use DataModelTrait;
     public function __construct(
-        public ?int $id,
-        public ?string $payment_id,
         public ?string $bank_name,
         public ?string $issuer_name,
         public ?string $bin,

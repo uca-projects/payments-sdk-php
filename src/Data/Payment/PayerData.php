@@ -40,8 +40,6 @@ class PayerData extends Data
      * @param array|null $billing_address
      */
     public function __construct(
-        public ?int $id,
-        public ?string $payment_id,
         public ?string $payer_reference,
         public string $name,
         public string $surname,

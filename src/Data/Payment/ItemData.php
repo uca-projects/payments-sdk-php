@@ -2,9 +2,9 @@
 
 namespace Uca\Payments\Data\Payment;
 
-use App\Models\Item;
 use Spatie\LaravelData\Data;
 use OpenApi\Attributes as OA;
+use Uca\Payments\Traits\DataModelTrait;
 
 #[OA\Schema(
     schema: 'ItemData',
@@ -21,6 +21,7 @@ use OpenApi\Attributes as OA;
 )]
 class ItemData extends Data
 {
+    use DataModelTrait;
     /**
      * @param string|null $item_reference
      * @param string $title
@@ -29,17 +30,12 @@ class ItemData extends Data
      * @param float $unit_price
      */
     public function __construct(
+        public ?int $id,
+        public ?string $payment_id,
         public ?string $item_reference,
         public string $title,
         public ?string $description,
         public int $quantity,
         public float $unit_price
     ) {}
-
-    public function toModel(): Item
-    {
-        $attributes = array_filter($this->toArray(), fn($value) => !is_null($value));
-
-        return new Item($attributes);
-    }
 }

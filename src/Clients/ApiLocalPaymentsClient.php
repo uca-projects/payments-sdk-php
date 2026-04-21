@@ -18,12 +18,12 @@ class ApiLocalPaymentsClient extends AbstractApiClient
         parent::__construct();
     }
 
-    public function getPayment(GetPaymentData $getPaymentRequestData): array
+    public function getPayment(GetPaymentData $getPaymentData): array
     {
         $response = $this->doGet(
             self::ENDPOINTS['getPayment'],
             [
-                'id' => $getPaymentRequestData->id
+                'id' => $getPaymentData->id
             ]
         );
 
@@ -35,12 +35,12 @@ class ApiLocalPaymentsClient extends AbstractApiClient
         return $this->doGet(self::ENDPOINTS['search'], $searchData->toArray());
     }
 
-    public function sync(string $unique_field, string $value): array
+    public function sync(GetPaymentData $getPaymentData): array
     {
         $url_params = [
-            'uniqueField' => $unique_field,
-            'value' => $value
+            'id' => $getPaymentData->id
         ];
+
         return $this->doPut(self::ENDPOINTS['sync'], $url_params);
     }
 }

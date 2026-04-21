@@ -129,4 +129,14 @@ class ApiLocalPaymentService
             throw $e;
         }
     }
+
+    public function sync(GetPaymentData $getPaymentData): PaymentData
+    {
+        try {
+            $response = $this->apiLocalPaymentsClient->sync($getPaymentData);
+            return PaymentData::from($response['data']);
+        } catch (ApiClientException $e) {
+            throw $e;
+        }
+    }
 }

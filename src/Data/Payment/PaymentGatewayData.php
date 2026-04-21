@@ -2,11 +2,11 @@
 
 namespace Uca\Payments\Data\Payment;
 
-use App\Models\PaymentGateway;
 use Spatie\LaravelData\Optional;
 use Uca\Payments\Enums\GatewayEnum;
 use OpenApi\Attributes as OA;
 use Spatie\LaravelData\Data;
+use Uca\Payments\Traits\DataModelTrait;
 
 /* #[OA\Schema(
     schema: 'PaymentGatewayData',
@@ -25,6 +25,7 @@ use Spatie\LaravelData\Data;
 
 class PaymentGatewayData extends Data
 {
+    use DataModelTrait;
     public function __construct(
         public string $id,
         public ?string $alias,
@@ -36,15 +37,5 @@ class PaymentGatewayData extends Data
         $this->description ??= Optional::create();
         $this->logo_url ??= Optional::create();
         $this->credential ??= Optional::create();
-    }
-
-    public function toModel(): PaymentGateway
-    {
-        $attributes = array_filter(
-            $this->toArray(),
-            fn($value) => !is_null($value) && !($value instanceof Optional)
-        );
-
-        return new PaymentGateway($attributes);
     }
 }

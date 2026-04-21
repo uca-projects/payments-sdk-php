@@ -2,20 +2,17 @@
 
 namespace Uca\Payments\Data\Payment;
 
-use App\Models\Item;
-use App\Models\Payer;
-use App\Models\Payment;
-use App\Models\PaymentCard;
-use App\Models\PaymentDetail;
-use App\Models\PaymentGateway;
-use App\Models\PaymentIntention;
 use Illuminate\Support\Carbon;
 use Spatie\LaravelData\Attributes\DataCollectionOf;
 use Spatie\LaravelData\Data;
 use Uca\Payments\Enums\PaymentStatusEnum;
+use Uca\Payments\Traits\DataMergerTrait;
+use Uca\Payments\Traits\DataModelTrait;
 
 class PaymentData extends Data
 {
+    use DataMergerTrait;
+    use DataModelTrait;
     public function __construct(
         public ?string $id,
         public ?string $client_id,
@@ -74,38 +71,5 @@ class PaymentData extends Data
         } catch (\Exception $e) {
             return null;
         }
-    }
-
-    public function toModel(): Payment
-    {
-        $attributes = array_filter($this->toArray(), fn($value) => !is_null($value));
-
-        $payment = new Payment($attributes);
-
-        if ($this->id) {
-            $payment->id = $this->id;
-            $payment->exists = true;
-        }
-
-        $relations = [
-            'paymentCard'      => PaymentCard::class,
-            'paymentIntention' => PaymentIntention::class,
-            'paymentDetail'    => PaymentDetail::class,
-            'paymentGateway'   => PaymentGateway::class,
-            'payer'            => Payer::class,
-        ];
-
-        foreach ($relations as $relation => $modelClass) {
-            if ($this->{$relation}) {
-                $payment->setRelation($relation, $this->{$relation}->toModel());
-            }
-        }
-
-        if ($this->items) {
-            $items = collect($this->items)->map(fn($itemData) => $itemData->toModel());
-            $payment->setRelation('items', $items);
-        }
-
-        return $payment;
     }
 }

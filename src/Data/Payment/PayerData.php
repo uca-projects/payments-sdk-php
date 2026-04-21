@@ -2,10 +2,10 @@
 
 namespace Uca\Payments\Data\Payment;
 
-use App\Models\Payer;
 use Spatie\LaravelData\Attributes\Computed;
 use Spatie\LaravelData\Data;
 use OpenApi\Attributes as OA;
+use Uca\Payments\Traits\DataModelTrait;
 
 #[OA\Schema(
     schema: 'PayerData',
@@ -28,6 +28,7 @@ use OpenApi\Attributes as OA;
 )]
 class PayerData extends Data
 {
+    use DataModelTrait;
 
     /**
      * @param string|null $payer_reference
@@ -39,6 +40,8 @@ class PayerData extends Data
      * @param array|null $billing_address
      */
     public function __construct(
+        public ?int $id,
+        public ?string $payment_id,
         public ?string $payer_reference,
         public string $name,
         public string $surname,
@@ -64,12 +67,5 @@ class PayerData extends Data
     public function full_name(): string
     {
         return $this->fullName();
-    }
-
-    public function toModel(): Payer
-    {
-        $attributes = array_filter($this->toArray(), fn($value) => !is_null($value));
-        
-        return new Payer($attributes);
     }
 }

@@ -2,9 +2,9 @@
 
 namespace Uca\Payments\Data\Payment;
 
-use App\Models\PaymentIntention;
 use OpenApi\Attributes as OA;
 use Spatie\LaravelData\Data;
+use Uca\Payments\Traits\DataModelTrait;
 
 #[OA\Schema(
     schema: 'PaymentIntentionData',
@@ -21,6 +21,7 @@ use Spatie\LaravelData\Data;
 )]
 class PaymentIntentionData extends Data
 {
+    use DataModelTrait;
     /**
      * @param string|null $transaction_intent_id
      * @param string|null $checkout_url
@@ -30,6 +31,8 @@ class PaymentIntentionData extends Data
      * @param array|null $back_urls
      */
     public function __construct(
+        public ?int $id,
+        public ?string $payment_id,
         public ?string $transaction_intent_id,
         public ?string $checkout_url,
         public ?string $qr,
@@ -37,11 +40,4 @@ class PaymentIntentionData extends Data
         public ?string $notification_url,
         public ?array $back_urls,
     ) {}
-
-    public function toModel(): PaymentIntention
-    {
-        $attributes = array_filter($this->toArray(), fn($value) => !is_null($value));
-
-        return new PaymentIntention($attributes);
-    }
 }

@@ -15,7 +15,7 @@ trait DataPaginatorTrait
      * @param ?int $limit
      * @return PaginationData
      */
-    public function paginationFromModel(Builder $query, int $offset = 0, ?int $limit = null): PaginationData
+    public function paginationFromModel(Builder $query, ?int $offset = 0, ?int $limit = null): PaginationData
     {
         $total = (clone $query)->count();
 

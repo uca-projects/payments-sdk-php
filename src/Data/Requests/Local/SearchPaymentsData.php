@@ -55,7 +55,7 @@ class SearchPaymentsData extends Data
         public ?string $max_created_at = null,
 
         #[Rule(['integer', 'min:0'])]
-        public ?int $offset = null,
+        public ?int $offset = 0,
 
         #[Rule(['integer', 'min:1', 'max:100'])]
         public ?int $limit = null,

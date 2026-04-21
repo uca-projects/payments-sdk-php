@@ -2,9 +2,9 @@
 
 namespace Uca\Payments\Data\Payment;
 
-use App\Models\PaymentDetail;
 use OpenApi\Attributes as OA;
 use Spatie\LaravelData\Data;
+use Uca\Payments\Traits\DataModelTrait;
 
 #[OA\Schema(
     schema: 'PaymentDetailData',
@@ -20,6 +20,7 @@ use Spatie\LaravelData\Data;
 )]
 class PaymentDetailData extends Data
 {
+    use DataModelTrait;
     /**
      * @param array|null $token_card
      * @param string|null $ticket
@@ -28,17 +29,12 @@ class PaymentDetailData extends Data
      * @param string|null $error
      */
     public function __construct(
+        public ?int $id,
+        public ?string $payment_id,
         public ?array $token_card,
         public ?string $ticket,
         public ?string $card_authorization_code,
         public ?int $installments,
         public ?array $error,
     ) {}
-
-    public function toModel(): PaymentDetail
-    {
-        $attributes = array_filter($this->toArray(), fn($value) => !is_null($value));
-
-        return new PaymentDetail($attributes);
-    }
 }

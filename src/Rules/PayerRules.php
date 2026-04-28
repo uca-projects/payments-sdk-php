@@ -14,7 +14,7 @@ class PayerRules
             'payer.name' => ['required', 'string'],
             'payer.surname' => ['required', 'string'],
             'payer.email' => ['required', 'email'],
-            'payer.doc_type' => ['required', 'string', Rule::in(['DNI', 'CUIT', 'PAS'])],
+            'payer.doc_type' => ['required', 'string', Rule::in(['DNI', 'CUIT', 'PAS', 'CUIL', 'OTRO'])],
             'payer.doc_number' => ['required', 'string'],
             'payer.billing_address' => ['nullable', 'array', new RequiredArrayKeys(['street_name'])],
         ];

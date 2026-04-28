@@ -4,6 +4,34 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## [2.0.0] - 2026-04-28
+
+### Features
+
+- **Validation**: Added `CUIL` and `OTRO` as valid payer document types in `PayerRules`.
+- **Search**: Added `gateway_transaction_id` to payment search data and updated local search endpoints.
+- **Services**: Implemented a fluent builder pattern for payment services and improved dedicated service layers with custom Carbon date casting.
+- **API**: Improved API error response handling and added `throw()` method to auth token requests for better failure handling.
+- **Data Objects**: Added `toModel` methods for recursive DTO-to-Eloquent transformation and introduced `DataPaginatorTrait` and `DataMergerTrait`.
+- **UI/UX**: Added pagination view support with a new Blade component.
+
+### Fixed
+
+- **Authentication**: Ensured auth token requests throw exceptions on failure.
+- **Formatting**: Removed redundant whitespace and standardized code style across the SDK.
+
+### Refactoring
+
+- **Architecture**: Major restructuring of the SDK architecture, including a new API client, service layers, and standardized data transfer objects.
+- **Namespacing**: Organized payment clients, requests, and services into `local` and `remote` namespaces for better modularity.
+- **Endpoints**: Standardized API endpoints to include gateway IDs and improved response handling across all services.
+- **Data Transformation**: Implemented a generic `DataModelTrait` for recursive mapping and simplified DTOs by removing database-specific fields.
+- **Naming Conventions**: Updated internal classes and properties (e.g., `PaginationFromModel`) to follow camelCase conventions.
+
+### Chore
+
+- **Dependencies**: Updated `darkaonline/l5-swagger` and `spatie/laravel-data` to their latest compatible versions.
+- **Configuration**: Updated configuration keys and improved SDK initialization logic.
 
 ## [1.0.5] - 2026-03-31
 
